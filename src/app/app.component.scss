@@ -1,0 +1,136 @@
+@use "src/styles";
+
+img{
+  max-width: 100%;
+  height: auto;
+}
+
+.wrapper-full{
+  max-width: 1262px;
+  margin: 0 auto;
+}
+
+.section-title{
+  font-weight: 500;
+  font-size: 35px;
+  line-height: 42px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.section-title::after{
+  display: block;
+  content: '';
+  width: 253px;
+  height: 3px;
+  background-color: #006DFE;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+/* Header styles start */
+
+.header{
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: styles.$back-color-dark;
+  padding-bottom: 20px;
+}
+.header__wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+
+}
+.header__link{
+  font-size: 18px;
+  line-height: 24px;
+  color: white;
+  text-decoration: none;
+}
+.header__logo-with-title {
+  display: flex;
+  gap: 45px;
+  align-items: center;
+}
+.header__fjb {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+.header__logo-pic {
+  width: 120px;
+}
+.header__title {
+  font-size: 26px;
+  font-weight: 700;
+}
+.header__fio-jobpost {
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+}
+
+@media (max-width: 1087px) {
+  .header__logo-with-title {
+    gap: 40px;
+  }
+  .header__fjb {
+    gap: 55px;
+  }
+  .header__logo-pic {
+    width: 110px;
+  }
+  .header__title {
+    font-size: 20px;
+  }
+  .header__fio-jobpost {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 980px) {
+  .header__logo-with-title {
+    gap: 30px;
+  }
+  .header__fjb {
+    gap: 45px;
+  }
+  .header__logo-pic {
+    width: 100px;
+  }
+  .header__title {
+    font-size: 18px;
+  }
+  .header__fio-jobpost {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .header__logo-with-title {
+    gap: 20px;
+  }
+  .header__fjb {
+    gap: 35px;
+  }
+  .header__logo-pic {
+    width: 90px;
+  }
+  .header__title {
+    font-size: 18px;
+  }
+  .header__fio-jobpost {
+    font-size: 14px;
+  }
+}
+/* Header styles end */
+
+
+

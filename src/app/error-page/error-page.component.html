@@ -1,0 +1,9 @@
+<div class="wrapper">
+    <div class="error__container">
+        <h1 class="error__title">Error 404</h1>
+        <a class="btn" *ngIf="!auth.getIsAuth(); else clientsPage" routerLink="/">Вернуться на домашнюю страницу</a>
+        <ng-template #clientsPage>
+            <a class="btn" routerLink="/clientspage">Вернуться на страницу клиентов</a>
+        </ng-template>
+    </div>
+</div>

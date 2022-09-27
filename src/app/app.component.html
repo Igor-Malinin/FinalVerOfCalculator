@@ -1,0 +1,45 @@
+<!-- Header start -->
+<header class="header">
+    <div class="wrapper">
+        <div class="header__wrapper">
+            <div class="header__logo-with-title">
+                <a href="/" class="header__logo-link">
+                    <img src="../assets/images/header-logo.png" alt="Discover Amazing places in Japan" class="header__logo-pic">
+                </a>
+                <h1 class="header__title">Строительный калькулятор</h1>
+            </div>
+
+            <div class="header__fjb">
+                <div class="header__fio-jobpost">
+                    <p class="header__fio">Имя Фамилия</p>
+                    <p class="header__jobpost">Должность</p>
+                </div>
+                <a class="btn header__btn-leave" routerLink="/login" *ngIf="!auth.getIsAuth(); else authorizated">Войти</a>
+                <ng-template #authorizated>
+                    <a class="btn header__btn-leave" (click)="auth.logout()" routerLink="/">Выйти</a>
+                </ng-template>
+            </div>
+
+
+<!--            <nav class="header__nav">-->
+<!--                <ul class="header__list">-->
+<!--                    <li class="header__item">-->
+<!--                        <a [routerLink]="['/']" class="header__link">Главная</a>-->
+<!--                    </li>-->
+<!--                    <li class="header__item">-->
+<!--                        <a [routerLink]="['/restaurants']" class="header__link">Выбор ресторана</a>-->
+<!--                    </li>-->
+<!--                    <li class="header__item">-->
+<!--                        <a href="#!" class="header__link">Доставка</a>-->
+<!--                    </li>-->
+<!--                    <li class="header__item">-->
+<!--                        <a [routerLink]="['/login']" class="header__link">Вход</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </nav>-->
+        </div>
+    </div>
+</header>
+<!-- Header end -->
+
+<router-outlet></router-outlet>

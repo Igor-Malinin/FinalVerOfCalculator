@@ -1,0 +1,25 @@
+<div class="wrapper">
+    <div class="clients__container">
+        <h1 class="clients__title">Клиенты</h1>
+        <button class="btn clients__btn">Создать клиента</button>
+
+        <div class="clients__cards">
+            <div class="clients__card" *ngFor="let cl of clientsService.clients">
+                <a class="link-clients__card" [routerLink]="['/clientspage', cl.id]">
+                    <p class="clients__card-line">
+                        {{cl.name}}
+                        {{cl.surname}}
+                        {{cl.patronymic}}
+                    </p>
+                    <p class="clients__card-line">
+                        {{cl.address}}
+                    </p>
+                    <p class="clients__card-line">
+                        {{cl.telephone | cellphone}}
+                    </p>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
