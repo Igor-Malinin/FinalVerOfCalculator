@@ -33,11 +33,11 @@ img{
 
 .header{
   position: fixed;
-  z-index: 2;
+  z-index: 3;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: styles.$back-color-dark;
+  //background-color: styles.$back-color-dark;
   padding-bottom: 20px;
 }
 .header__wrapper{

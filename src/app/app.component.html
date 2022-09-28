@@ -1,16 +1,17 @@
 <!-- Header start -->
-<header class="header">
+<header class="header" #scroll>
     <div class="wrapper">
         <div class="header__wrapper">
             <div class="header__logo-with-title">
                 <a href="/" class="header__logo-link">
                     <img src="../assets/images/header-logo.png" alt="Discover Amazing places in Japan" class="header__logo-pic">
                 </a>
-                <h1 class="header__title">Строительный калькулятор</h1>
+<!--                <h1 class="header__title">Строительный калькулятор</h1>-->
             </div>
-
+<!--            <button class="btn" (click)="onWindowScroll()">scroll</button>-->
             <div class="header__fjb">
-                <div class="header__fio-jobpost">
+
+                <div class="header__fio-jobpost" *ngIf="auth.getIsAuth()">
                     <p class="header__fio">Имя Фамилия</p>
                     <p class="header__jobpost">Должность</p>
                 </div>
