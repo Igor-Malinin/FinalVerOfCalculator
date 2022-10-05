@@ -1,0 +1,81 @@
+<div class="wrapper">
+    <div class="reg__client-form">
+        <button class="btn btn-go-back" type="button" routerLink="/clientspage">Назад</button>
+        <form class="reg__form" [formGroup]="formClientReg" (ngSubmit)="submit()">
+            <h1 class="reg__title">Регистрация нового клиента</h1>
+
+            <div class="reg__form-control">
+                <input type="text" name="cName" class="reg__input" placeholder="Имя" formControlName="name">
+                <div
+                    *ngIf="formClientReg.get('name')?.invalid && formClientReg.get('name')?.touched"
+                    class="validation"
+                >
+                    <small>Поле не может быть пустым</small>
+                </div>
+            </div>
+            <div class="reg__form-control">
+                <input type="text" name="surname" class="reg__input" placeholder="Фамилия" formControlName="surname">
+                <div
+                    *ngIf="formClientReg.get('surname')?.invalid && formClientReg.get('surname')?.touched"
+                    class="validation"
+                >
+                    <small>Поле не может быть пустым</small>
+                </div>
+            </div>
+            <div class="reg__form-control">
+                <input type="text" name="patronymic" class="reg__input" placeholder="Отчество" formControlName="patronymic">
+                <div
+                    *ngIf="formClientReg.get('patronymic')?.invalid && formClientReg.get('patronymic')?.touched"
+                    class="validation"
+                >
+                    <small>Поле не может быть пустым</small>
+                </div>
+            </div>
+            <div class="reg__form-control">
+                <input type="text" name="telephone" class="reg__input" placeholder="Телефон" formControlName="telephone">
+                <div
+                    *ngIf="formClientReg.get('telephone')?.invalid && formClientReg.get('telephone')?.touched"
+                    class="validation"
+                >
+                    <small *ngIf="formClientReg.get('telephone')?.errors?.['required']">
+                        Поле не может быть пустым
+                    </small>
+                    <small *ngIf="formClientReg.get('telephone')?.hasError('minlength')">
+                        Введите телефон длиной {{formClientReg.get('telephone')?.errors?.['minlength'].requiredLength}} символов.
+                        Вы ввели {{formClientReg.get('telephone')?.errors?.['minlength'].actualLength}}.
+                    </small>
+                    <small *ngIf="formClientReg.get('telephone')?.hasError('maxlength')">
+                        Введите телефон длиной {{formClientReg.get('telephone')?.errors?.['maxlength'].requiredLength}} символов.
+                        Вы ввели {{formClientReg.get('telephone')?.errors?.['maxlength'].actualLength}}.
+                    </small>
+                </div>
+            </div>
+            <div class="reg__form-control">
+                <input type="text" name="email" class="reg__input" placeholder="E-mail" formControlName="email">
+                <div
+                    *ngIf="formClientReg.get('email')?.invalid && formClientReg.get('email')?.touched"
+                    class="validation"
+                >
+                    <small *ngIf="formClientReg.get('email')?.errors?.['required']">
+                        Поле не может быть пустым
+                    </small>
+                    <small *ngIf="formClientReg.get('email')?.errors?.['email']">
+                        Введите корректный E-mail
+                    </small>
+                </div>
+            </div>
+            <div class="reg__form-control">
+                <input type="text" name="address" class="reg__input" placeholder="Адрес" formControlName="address">
+                <div
+                    *ngIf="formClientReg.get('address')?.invalid && formClientReg.get('address')?.touched"
+                    class="validation"
+                >
+                    <small>Поле не может быть пустым</small>
+                </div>
+            </div>
+
+            <button class="btn reg__btn" type="submit" [disabled]="formClientReg.invalid">Зарегистрировать</button>
+
+        </form>
+    </div>
+</div>
