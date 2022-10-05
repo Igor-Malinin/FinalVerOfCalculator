@@ -10,8 +10,3 @@
         </div>
     </div>
 </div>
-
-<router-outlet *ngIf="auth.getIsAuth(); else userDenied"></router-outlet>
-<ng-template #userDenied>
-<!--    <p [ngStyle]="">Пользователя не существует</p>-->
-</ng-template>

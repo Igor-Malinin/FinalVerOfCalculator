@@ -19,29 +19,12 @@ main {
   position: absolute;
   z-index: 2;
   width: 100%;
-  height: calc($index * 15);
+  height: calc($index * 5.5);
   background-image: url(../../assets/images/ground.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  bottom: calc($index * -1.6)
-}
-@media (max-width: 1087px) {
-  .main-header::after {
-    bottom: calc($index * -1.8)
-  }
-}
-
-@media (max-width: 980px) {
-  .main-header::after {
-    bottom: calc($index * -2.3)
-  }
-}
-
-@media (max-width: 767.98px) {
-  .main-header::after {
-    bottom: calc($index * -2.6)
-  }
+  bottom: calc($index * -2.6)
 }
 .layers {
   height: 100vh;

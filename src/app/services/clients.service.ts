@@ -8,8 +8,6 @@ export interface Client {
   telephone: number
   email: string
   address: string
-
-
 }
 
 @Injectable({
