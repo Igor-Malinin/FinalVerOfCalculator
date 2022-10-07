@@ -1,0 +1,53 @@
+@use "src/styles";
+
+
+.loginpage {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: styles.$back-color-light;
+}
+.login__box {
+  position: absolute;
+  width: 400px;
+  height: 330px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  overflow: auto;
+  background-color: styles.$back-color-dark;
+  border-radius: 10px;
+}
+
+.login__title {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.login__input {
+  width: 300px;
+  font-size: 18px;
+  padding: 10px;
+  color: styles.$text-color-light;
+  background-color: styles.$back-color-dark;
+  border: 2px solid styles.$border-color-lightgrey;
+  border-radius: 10px;
+}
+
+.login__btn {
+  //width: 100px;
+  //height: 45px;
+  font-size: 18px;
+  padding: 10px 20px;
+}

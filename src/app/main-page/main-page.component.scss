@@ -1,0 +1,120 @@
+@use "src/styles";
+
+$index: calc(1vw + 1vh);
+//$transition: transform .01s ease;
+
+main {
+  background-color: #303030;
+  color: styles.$text-color-light;
+  font-family: 'Raleway', sans-serif;
+}
+.header__layers {
+  margin-top: 200px;
+}
+.main-header {
+  position: relative;
+}
+.main-header::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: calc($index * 5.5);
+  background-image: url(../../assets/images/ground.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  bottom: calc($index * -2.6)
+}
+.layers {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+.layer {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+  z-index: 2;
+  //transition: $transition;
+}
+
+.layers__base {
+  transform: translate3d(0, calc(var(--scrollTop)/1.1), 0);
+  z-index: 0;
+}
+.layers__back {
+  transform: translate3d(0, calc(var(--scrollTop)/1.6), 0);
+  z-index: 0;
+}
+.layers__middle {
+  transform: translate3d(0, calc(var(--scrollTop)/2.5), 0);
+}
+.layers__front {
+  transform: translate3d(0, calc(var(--scrollTop)/5), 0);
+}
+
+.layer__header {
+  z-index: 1;
+  transform: translate3d(0, calc(var(--scrollTop) / 1.6), 0);
+  will-change: transform;
+  text-transform: uppercase;
+  font-weight: 900;
+  text-shadow: 0 0 15px #a28908;
+}
+.layers__caption {
+  font-size: calc($index / 1.1);
+  letter-spacing: calc($index / 7);
+  margin-left: 200px;
+}
+.layers__title {
+  font-size: calc($index * 1.7);
+  letter-spacing: calc($index / 5);
+  margin-left: 200px;
+  margin-bottom: calc($index * 4);
+}
+
+.main-article {
+  position: relative;
+  min-height: 100vh;
+  color: styles.$text-color-light;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.main-article__header {
+  text-transform: uppercase;
+  font-size: calc($index * 1.8);
+  letter-spacing: calc($index / 7.5);
+  transform: translate3d(0, calc(var(--scrollTop) / -7.5), 0);
+  will-change: transform;
+}
+.main-article__paragraph {
+  max-width: calc($index * 28);
+  font-size: calc($index * .9);
+  margin-top: calc($index / 1.25);
+  transform: translate3d(0, calc(var(--scrollTop) / -10), 0);
+  will-change: transform;
+}
+.content-main {
+  will-change: transform;
+}
+.main-article__content {
+  text-shadow: 0 2px 5px #36b7ef;
+}
+.copyright {
+  position: relative;
+  //bottom: calc($index * 2.5);
+  font-size: calc($index * 1.2);
+  letter-spacing: calc($index / 37.5);
+}
