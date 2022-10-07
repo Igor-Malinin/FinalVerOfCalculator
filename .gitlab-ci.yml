@@ -5,7 +5,6 @@ default:
 build_image:
   stage: build
   script:
-    - npm install
     - npm link @angular/cli@14.2.2
     - npm run build
     - ls
