@@ -2,6 +2,10 @@ image: node:latest
 default: 
   tags: [worker01]
 
+stages:
+  - build
+
+
 build_image:
   stage: build
   script:
