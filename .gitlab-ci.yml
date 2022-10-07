@@ -1,21 +1,17 @@
-default: 
-  tags: [worker01]
-
 image: node:latest
-
-
-stages:
-  - build_front
-
-  
-#production:
-#  type: deploy
-#  stage: production
-#  image: ruby:latest
-#  script:
-#    - apt-get update -qy
-#    - apt-get install -y ruby-dev
-#    - gem install dpl
-#    - dpl --provider=heroku --app=node-heroku-dpl --api-key=$HEROKU_API_KEY
-#  only:
-#    - master
+pages:
+  stage: deploy
+  cache:
+    key:
+      files:
+        - package-lock.json
+      prefix: npm
+    paths:
+      - node_modules/
+  script:
+    - npm install
+    - npm run build
+    - cp -a dist/. public/
+  artifacts:
+    paths:
+      - public
