@@ -15,7 +15,6 @@ build-min-code:
   stage: build
   script:
     - npm install
-    - npm run minifier
 
 #run-unit-test:
 #  stage: test
