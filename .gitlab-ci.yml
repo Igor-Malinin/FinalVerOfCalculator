@@ -1,11 +1,11 @@
-image: node:12-alpine
+image: node:latest
 default: 
   tags: [worker01]
 
 build_image:
   stage: build
   script:
-    - npm link @angular/cli@11.2.6
+    - npm link @angular/cli@14.2.2
     - npm run build
     - ls
   artifacts:
