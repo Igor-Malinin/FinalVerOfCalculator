@@ -1,20 +1,27 @@
-image: node:latest
+image: node:alpine
 default: 
   tags: [worker01]
 
-pages:
-  stage: deploy
-  cache:
-    key:
-      files:
-        - package-lock.json
-      prefix: npm
-    paths:
-      - node_modules/
+
+stages:
+  - build
+ # - deploy
+
+cache:
+  paths:
+  -  node_modules/
+
+build process:
+  stage: build
   script:
-    - npm install
+    - npm install --progress=false
     - npm run build
-    - cp -a dist/. public/
   artifacts:
+    expire_in: 1 week
     paths:
-      - public
+      - dist
+
+#deploy to surge:
+#  stage: deploy
+#  script:
+#    - npx surge --project ./dist --domain xxx.surge.sh
