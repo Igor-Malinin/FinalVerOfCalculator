@@ -1,4 +1,7 @@
 image: node:latest
+default: 
+  tags: [worker01]
+
 pages:
   stage: deploy
   cache:
