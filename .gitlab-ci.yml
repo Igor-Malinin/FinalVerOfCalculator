@@ -1,6 +1,6 @@
 image: node:latest
 default: 
-  tags: [worker01]
+  tags: [worker2]
 
 stages:
   - build
