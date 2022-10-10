@@ -10,7 +10,8 @@ build_image:
   script:
     - npm install
     - npm link @angular/cli@14.2.2
-    - ng serve
+    - npm i @angular-devkit/build-angular
+    - npm run build
     - ls
   artifacts:
     paths:
