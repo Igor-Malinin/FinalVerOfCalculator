@@ -11,7 +11,7 @@ build_image:
     - npm install
     - npm link @angular/cli@14.2.0
     - npm i @angular-devkit/build-angular --force
-    - npm run build
+    - ng build
     - ls
   artifacts:
     paths:
