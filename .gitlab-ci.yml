@@ -7,7 +7,7 @@ stages:
 
 
 build_image:
-  image: latest
+  image: node:latest
   stage: build
   script:
     - npm link @angular/cli@14.1.0
