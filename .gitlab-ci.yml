@@ -9,7 +9,7 @@ build_image:
   stage: build
   script:
     - npm install
-    - npm link @angular/cli@14.2.2
+    - npm install -g @angular/cli
     - npm i @angular-devkit/build-angular --force
     - npm run build --force
     - ls
