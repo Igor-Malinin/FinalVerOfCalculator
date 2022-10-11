@@ -11,7 +11,7 @@ build_image:
   stage: build
   script:
     - npm link @angular/cli@14.1.0
-    - npm run build
+    - npm run build --verbose
   artifacts:
     paths:
       - $CI_PROJECT_DIR/dist
