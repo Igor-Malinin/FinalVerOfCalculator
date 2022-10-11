@@ -5,13 +5,14 @@ default:
 stages:
   - build
 
-
 build_image:
-  image: node:latest
   stage: build
   script:
-    - npm link @angular/cli@14.1.0
+    - npm install
+    - npm install -g @angular/cli
+    - npm i @angular-devkit/build-angular --force
     - npm run build --verbose
+    - ls
   artifacts:
     paths:
       - $CI_PROJECT_DIR/dist
@@ -22,3 +23,43 @@ build_image:
     paths:
       - node_modules
     policy: pull
+  when: always
+
+
+
+# image: node:alpine
+# default: 
+#   tags: [worker01]
+
+
+# stages:
+#   - build
+# #  - test
+#  # - deploy
+
+# before_script:
+#   - npm install
+
+# build-min-code:
+#   stage: build
+#   script:
+#     - npm install
+
+#run-unit-test:
+#  stage: test
+#  script:
+#    - npm run test#
+
+#deploy-staging:
+#  stage: deploy
+#  script:
+#    - npm run deploy-stage
+#  only:
+#    - develop#
+
+#deploy-production:
+#  stage: deploy
+#  script:
+#    - npm run deploy-prod
+#  only:
+#    - master
