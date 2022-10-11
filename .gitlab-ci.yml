@@ -11,18 +11,18 @@ build_image:
     - npm install
     - npm install -g @angular/cli
     - npm i @angular-devkit/build-angular --force
-    - npm run build --verbose --aot=false --sourceMap=false --buildOptimizer=false
+    - npm run build --source-map=false
+    - npm run build --verbose --aot=false --optimization=true --sourceMap=false --buildOptimizer=false
     - ls
+
+    # - npm install
+    # - npm install -g @angular/cli
+    # - npm i @angular-devkit/build-angular --force
+    # - npm run build --verbose --aot=false --sourceMap=false --buildOptimizer=false
+    # - ls
   artifacts:
     paths:
       - $CI_PROJECT_DIR/dist
-  cache:
-    key:
-      files:
-        - package-lock.json
-    paths:
-      - node_modules
-    policy: pull
   when: always
 
 
