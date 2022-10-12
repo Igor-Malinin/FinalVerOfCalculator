@@ -22,7 +22,8 @@ run_frontend_part:
     - 'git clone https://oauth2:"$ANSIBLE_REPO_TOKEN"@mugiwara.gitlab.yandexcloud.net/mygroup/ansible.git'
     - cat $PRIVATE_KEY > /builds/mygroup/frontend/ansible/id_rsa
     - chmod 600 /builds/mygroup/frontend/ansible/id_rsa
-    - tar -cfzv dist.tar.gz /builds/mygroup/frontend/dist
+    - cd /builds/mygroup/frontend/ && ls -la
+    - tar -cfzv dist.tar.gz /builds/mygroup/frontend/dist/
     - cd /builds/mygroup/frontend/ && ls -la
     - cd /builds/mygroup/frontend/ansible && ansible-playbook frontend.yaml -e 'ansible_ssh_private_key_file=id_rsa' -e 'ansible_user=devuser'
 
