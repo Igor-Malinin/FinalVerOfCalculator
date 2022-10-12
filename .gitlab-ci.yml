@@ -4,26 +4,50 @@ default:
 
 stages:
   - build
+  - run_frontend_part
 
-build_image:
-  stage: build
+.install_prereq:
+  before_script:
+    - apk update
+    - apk add ansible
+    - apk add git
+    - apk add python3
+
+
+run_frontend_part:
+  extends: .install_prereq
+  stage: run_frontend_part
+  variables:
+    ANSIBLE_VAULT_PASSWORD_FILE: /builds/mygroup/frontend/pass
   script:
-    - npm install
-    - npm install -g @angular/cli
-    - npm i @angular-devkit/build-angular --force
-    - npm run build --source-map=false
-    # - npm run build --verbose --aot=false --optimization=true --sourceMap=false --buildOptimizer=false
-    - ls -la
-
-    # - npm install
-    # - npm install -g @angular/cli
-    # - npm i @angular-devkit/build-angular --force
-    # - npm run build --verbose --aot=false --sourceMap=false --buildOptimizer=false
-    # - ls
-  artifacts:
-    paths:
-      - $CI_PROJECT_DIR/dist
+    - 'git clone https://oauth2:"$ANSIBLE_REPO_TOKEN"@mugiwara.gitlab.yandexcloud.net/mygroup/ansible.git'
+    - cat $PRIVATE_KEY > /builds/mygroup/frontend/ansible/id_rsa
+    - cat /builds/mygroup/frontend/ansible/id_rsa
+    - chmod 600 /builds/mygroup/frontend/ansible/id_rsa && echo $VM_KEY > /builds/mygroup/frontend/pass
+    - python3 --version
+    - cd ansible && ansible-playbook frontend.yaml -e 'ansible_ssh_private_key_file=id_rsa' -e 'ansible_user=devuser' -vvv
+  #  - cd ansible && ansible-playbook backend.yaml -e 'ansible_password=$WORKER_PASS' -e 'ansible_user=devuser' -vvv
   when: always
+
+# build_image:
+#   stage: build
+#   script:
+#     - npm install
+#     - npm install -g @angular/cli
+#     - npm i @angular-devkit/build-angular --force
+#     - npm run build --source-map=false
+#     # - npm run build --verbose --aot=false --optimization=true --sourceMap=false --buildOptimizer=false
+#     - ls -la
+
+#     # - npm install
+#     # - npm install -g @angular/cli
+#     # - npm i @angular-devkit/build-angular --force
+#     # - npm run build --verbose --aot=false --sourceMap=false --buildOptimizer=false
+#     # - ls
+#   artifacts:
+#     paths:
+#       - $CI_PROJECT_DIR/dist
+#   when: always
 
 
 
