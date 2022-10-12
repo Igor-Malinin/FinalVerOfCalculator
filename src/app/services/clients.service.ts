@@ -13,10 +13,12 @@ export interface Client {
 @Injectable({
   providedIn: 'root'
 })
+
 export class ClientsService {
+  clientpage = true
 
   clients: Client[] = [
-    {id: 11, name: 'Name1', surname: 'Surname1', patronymic: 'Patronymic1', telephone: 89008887766, email: 'email1@gmail.com', address: 'City1, street1, home1'},
+    {id: 11, name: 'Иван', surname: 'Луника', patronymic: 'Университетович', telephone: 89008887766, email: 'email1@gmail.com', address: 'Самара, улицинская, 35'},
     {id: 22, name: 'Name2', surname: 'Surname2', patronymic: 'Patronymic2', telephone: 89008887766, email: 'email2@gmail.com', address: 'City2, street2, home2'},
     {id: 33, name: 'Name3', surname: 'Surname3', patronymic: 'Patronymic3', telephone: 89008887766, email: 'email3@gmail.com', address: 'City3, street3, home3'},
     {id: 44, name: 'Name4', surname: 'Surname4', patronymic: 'Patronymic4', telephone: 89008887766, email: 'email4@gmail.com', address: 'City4, street4, home4'},

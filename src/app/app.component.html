@@ -9,9 +9,9 @@
                         <img src="../assets/images/header-logo.png" alt="Discover Amazing places in Japan" class="header__logo-pic" style="opacity: 0">
                     </ng-template>
                 </a>
-<!--                <h1 class="header__title">Строительный калькулятор</h1>-->
+                <h1 class="header__title" *ngIf="auth.getIsAuth(); else hiddenLogo">Строительный калькулятор</h1>
             </div>
-<!--            <button class="btn" (click)="onWindowScroll()">scroll</button>-->
+            <!--            <button class="btn" (click)="onWindowScroll()">scroll</button>-->
             <div class="header__fjb">
                 <div class="header__fio-jobpost" *ngIf="auth.getIsAuth()">
                     <p class="header__fio">{{managerService.managers[0].name}} {{managerService.managers[0].surname}}</p>
@@ -23,23 +23,6 @@
                 </ng-template>
             </div>
 
-
-<!--            <nav class="header__nav">-->
-<!--                <ul class="header__list">-->
-<!--                    <li class="header__item">-->
-<!--                        <a [routerLink]="['/']" class="header__link">Главная</a>-->
-<!--                    </li>-->
-<!--                    <li class="header__item">-->
-<!--                        <a [routerLink]="['/restaurants']" class="header__link">Выбор ресторана</a>-->
-<!--                    </li>-->
-<!--                    <li class="header__item">-->
-<!--                        <a href="#!" class="header__link">Доставка</a>-->
-<!--                    </li>-->
-<!--                    <li class="header__item">-->
-<!--                        <a [routerLink]="['/login']" class="header__link">Вход</a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </nav>-->
         </div>
     </div>
 </header>

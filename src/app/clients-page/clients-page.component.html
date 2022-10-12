@@ -7,8 +7,8 @@
             <div class="clients__card" *ngFor="let cl of clientsService.clients">
                 <a class="link-clients__card" [routerLink]="['/clientspage', cl.id]">
                     <p class="clients__card-line">
-                        {{cl.name}}
                         {{cl.surname}}
+                        {{cl.name}}
                         {{cl.patronymic}}
                     </p>
                     <p class="clients__card-line">

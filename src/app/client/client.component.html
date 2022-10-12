@@ -1,10 +1,56 @@
 <div class="wrapper">
     <div class="client__card">
-        <button class="btn" routerLink="/clientspage">Back</button>
+        <div class="client__card-header">
+            <button class="btn" routerLink="/clientspage">Назад</button>
+            <div class="client-info" *ngIf="!moreInfoToggle && !editToggle">
+                <p>{{client?.surname}} {{client?.name}} {{client?.patronymic}}</p>
+                <p>{{client!.telephone | cellphone}}</p>
+                <p class="links-top-line-separator"><a class="client__card-link" (click)="moreInfoToggle = !moreInfoToggle">Подробнее</a></p>
+            </div>
+            <div class="client-info" *ngIf="moreInfoToggle">
+                <p>{{client?.surname}} {{client?.name}} {{client?.patronymic}}</p>
+                <p>{{client!.telephone | cellphone}}</p>
+                <p>{{client?.address}}</p>
+                <p>{{client?.email}}</p>
+                <div class="flex-links links-top-line-separator">
+                    <a class="client__card-link" (click)="editToggle = !editToggle; moreInfoToggle = !moreInfoToggle">Редактировать</a>
+                    <a class="client__card-link" (click)="moreInfoToggle = !moreInfoToggle">Скрыть</a>
+                </div>
+            </div>
+            <div class="client-info client-info__edit" *ngIf="editToggle">
+                <input class="input__style" type="text" placeholder="Фамилия" [value]="client?.surname">
+                <input class="input__style" type="text" placeholder="Фамилия" [value]="client?.name">
+                <input class="input__style" type="text" placeholder="Фамилия" [value]="client?.patronymic">
+                <input class="input__style" type="text" placeholder="Фамилия" [value]="client?.telephone">
+                <input class="input__style" type="text" placeholder="Фамилия" [value]="client?.address">
+                <input class="input__style" type="text" placeholder="Фамилия" [value]="client?.email">
+                <a class="client__card-link links-top-line-separator" (click)="editToggle = !editToggle; moreInfoToggle = !moreInfoToggle">Сохранить</a>
+            </div>
+        </div>
 
-        <h1>{{client?.name}}</h1>
+        <button class="btn" [disabled]="true" routerLink="">Создать расчет</button>
 
-        <p>{{client?.surname}}</p>
+        <table class="calculation__table">
+            <tr class="calculation__table-headers">
+                <th>Номер</th>
+                <th>Дата</th>
+                <th>Статус</th>
+                <th>Адрес</th>
+                <th>Копирование</th>
+                <th>Удаление</th>
+            </tr>
+            <tr class="calculation__data" *ngFor="let calc of calculationService.calculation">
+                <td><a href="" class="client__card-link">Расчет №{{calc.numberN}}</a></td>
+                <td>{{calc.created_date | date:'dd.MM.yyyy'}}</td>
+                <td *ngIf="calc.cStatus; else falseStatus">Актуален</td>
+                <ng-template #falseStatus>
+                    <td>Не актуален</td>
+                </ng-template>
+                <td>{{calc.addressOC}}</td>
+                <td><button class="btn">Копировать</button></td>
+                <td><button class="btn danger">Удалить</button></td>
+            </tr>
+        </table>
 
     </div>
 </div>

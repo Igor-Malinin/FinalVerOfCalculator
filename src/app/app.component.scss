@@ -23,7 +23,7 @@ img{
   content: '';
   width: 253px;
   height: 3px;
-  background-color: #006DFE;
+  background-color: styles.$back-color-dark;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -121,10 +121,10 @@ img{
     gap: 35px;
   }
   .header__logo-pic {
-    width: 90px;
+    width: 80px;
   }
   .header__title {
-    font-size: 18px;
+    font-size: 17px;
   }
   .header__fio-jobpost {
     font-size: 14px;

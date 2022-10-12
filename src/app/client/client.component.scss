@@ -1,3 +1,84 @@
+@use "src/styles";
+
 .client__card {
   margin-top: 200px;
 }
+
+.client__card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+
+  .client-info {
+    text-align: right;
+    line-height: 1.5rem;
+    padding: 8px 12px;
+    border: 2px solid styles.$border-color-lightgrey;
+    border-radius: 10px;
+  }
+  .client-info__edit {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  .input__style {
+    margin-bottom: 0.5rem;
+  }
+  .flex-links {
+    display: flex;
+    justify-content: space-between;
+  }
+  .links-top-line-separator {
+    width: 100%;
+    text-align: center;
+    padding-top: 6px;
+    margin-top: 6px;
+    border-top: 2px solid gray;
+  }
+}
+
+.calculation__table {
+  width: 100%;
+  margin: 30px 0;
+  text-align: center;
+  border: 3px solid styles.$border-color-lightgrey;
+  border-collapse: separate;
+  border-radius: 10px;
+}
+
+tr, td, th {
+  padding: 10px 10px;
+  vertical-align: middle;
+  border: 2px solid styles.$border-color-lightgrey;
+  th:first-child {
+    border-top-left-radius: 5px;
+  }
+  th:last-child {
+    border-top-right-radius: 5px;
+  }
+}
+.calculation__data:last-child td:first-child {
+  border-bottom-left-radius: 5px;
+}
+.calculation__data:last-child td:last-child {
+  border-bottom-right-radius: 5px;
+}
+
+
+.calculation__table-headers {
+  text-align: center;
+}
+
+.client__card-link {
+  color: styles.$text-color-lightblue;
+  text-shadow: 0 0 5px styles.$border-color-blue;
+  cursor: pointer;
+  &:hover {
+    color: #b7e1fd;
+  }
+  &:active {
+    text-shadow: none;
+  }
+}
+
