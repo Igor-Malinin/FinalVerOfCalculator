@@ -1,6 +1,6 @@
-image: node:latest
+image: alpine:latest
 default: 
-  tags: [worker2]
+  tags: [worker01]
 
 stages:
   - build
@@ -17,15 +17,13 @@ stages:
 run_frontend_part:
   extends: .install_prereq
   stage: run_frontend_part
-  variables:
-    ANSIBLE_VAULT_PASSWORD_FILE: /builds/mygroup/frontend/pass
   script:
     - 'git clone https://oauth2:"$ANSIBLE_REPO_TOKEN"@mugiwara.gitlab.yandexcloud.net/mygroup/ansible.git'
     - cat $PRIVATE_KEY > /builds/mygroup/frontend/ansible/id_rsa
-    - cat /builds/mygroup/frontend/ansible/id_rsa
-    - chmod 600 /builds/mygroup/frontend/ansible/id_rsa && echo $VM_KEY > /builds/mygroup/frontend/pass
-    - python3 --version
-    - cd ansible && ansible-playbook frontend.yaml -e 'ansible_ssh_private_key_file=id_rsa' -e 'ansible_user=devuser' -vvv
+    - chmod 600 /builds/mygroup/frontend/ansible/id_rsa
+    - cd /builds/mygroup/frontend/ && ls -la
+    - cd /builds/mygroup/frontend/ansible && ansible-playbook frontend.yaml -e 'ansible_ssh_private_key_file=id_rsa' -e 'ansible_user=devuser'
+
   #  - cd ansible && ansible-playbook backend.yaml -e 'ansible_password=$WORKER_PASS' -e 'ansible_user=devuser' -vvv
   when: always
 
@@ -48,42 +46,3 @@ run_frontend_part:
 #     paths:
 #       - $CI_PROJECT_DIR/dist
 #   when: always
-
-
-
-# image: node:alpine
-# default: 
-#   tags: [worker01]
-
-
-# stages:
-#   - build
-# #  - test
-#  # - deploy
-
-# before_script:
-#   - npm install
-
-# build-min-code:
-#   stage: build
-#   script:
-#     - npm install
-
-#run-unit-test:
-#  stage: test
-#  script:
-#    - npm run test#
-
-#deploy-staging:
-#  stage: deploy
-#  script:
-#    - npm run deploy-stage
-#  only:
-#    - develop#
-
-#deploy-production:
-#  stage: deploy
-#  script:
-#    - npm run deploy-prod
-#  only:
-#    - master
