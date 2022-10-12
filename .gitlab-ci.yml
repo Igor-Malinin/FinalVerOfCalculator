@@ -1,6 +1,6 @@
 image: alpine:latest
 default: 
-  tags: [worker2]
+  tags: [worker01]
 
 stages:
   - build
