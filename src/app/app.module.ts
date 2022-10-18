@@ -11,6 +11,10 @@ import {ClientsPageComponent} from './clients-page/clients-page.component';
 import {ClientComponent} from './client/client.component';
 import {CellphonePipe} from "./pipes/cellphone.pipe";
 import { ClientRegistrationComponent } from './client-registration/client-registration.component';
+import {HttpClientModule} from "@angular/common/http";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MaterialModule} from "./material/material.module";
+import {NgSelectModule} from '@ng-select/ng-select';
 
 @NgModule({
     declarations: [
@@ -27,7 +31,11 @@ import { ClientRegistrationComponent } from './client-registration/client-regist
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
-        AppRoutingModule
+        AppRoutingModule,
+        HttpClientModule,
+        MaterialModule,
+        BrowserAnimationsModule,
+        NgSelectModule
     ],
     providers: [],
     bootstrap: [AppComponent]

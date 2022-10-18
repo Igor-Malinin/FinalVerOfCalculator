@@ -4,9 +4,13 @@
 
         <div class="login__box">
             <h1 class="login__title">Вход</h1>
-            <input type="text" name="username" class="login__input" placeholder="Логин" [(ngModel)]="auth.username">
-            <input type="password" name="password" class="login__input" placeholder="Пароль" [(ngModel)]="auth.password">
-            <button class="btn login__btn" (click)="auth.login()" routerLink="/clientspage">Войти</button>
+            <input type="text" name="username" class="login__input" placeholder="Логин" [(ngModel)]="username">
+            <input type="text" name="password" class="login__input" placeholder="Пароль" [(ngModel)]="password">
+            <button class="btn login__btn" (click)="onLoginClick()" routerLink="/clientspage">Войти</button>
+            <p class="danger-text" *ngIf="erStatus == 401; else Forbidden403">Неверный логин или пароль</p>
+            <ng-template #Forbidden403>
+                <p class="danger-text" *ngIf="erStatus == 403">403 Доступ запрещен</p>
+            </ng-template>
         </div>
     </div>
 </div>
