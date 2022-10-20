@@ -3,6 +3,7 @@
 .clients__container {
   position: relative;
   margin-top: 200px;
+  margin-bottom: 30px;
 }
 .clients__title {
   display: table;
@@ -15,7 +16,7 @@
   border-bottom: 4px solid styles.$text-color-light;
 }
 .clients__btn {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   margin-left: 2px;
 }
 .clients__cards {

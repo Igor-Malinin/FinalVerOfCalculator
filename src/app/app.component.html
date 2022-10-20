@@ -1,31 +1,38 @@
 <!-- Header start -->
-<header class="header">
+<header class="header" *ngIf="!auth.getIsAuth(); else authorizated">
     <div class="wrapper">
         <div class="header__wrapper">
-            <div class="header__logo-with-title">
-                <a href="/" class="header__logo-link">
-                    <img src="../assets/images/header-logo.png" alt="Discover Amazing places in Japan" class="header__logo-pic" *ngIf="auth.getIsAuth(); else hiddenLogo">
-                    <ng-template #hiddenLogo>
-                        <img src="../assets/images/header-logo.png" alt="Discover Amazing places in Japan" class="header__logo-pic" style="opacity: 0">
-                    </ng-template>
-                </a>
-                <h1 class="header__title" *ngIf="auth.getIsAuth(); else hiddenLogo">Строительный калькулятор</h1>
+            <div class="header__logo-with-title" style="width: 100%; justify-content: space-between">
+                <img src="../assets/images/header-logo.png" alt="Discover Amazing places in Japan" class="header__logo-pic" style="opacity: 0">
+                <a class="btn header__btn" routerLink="/login">Войти</a>
             </div>
-            <!--            <button class="btn" (click)="onWindowScroll()">scroll</button>  sd-->
-            <div class="header__fjb">
-                <div class="header__fio-jobpost" *ngIf="auth.getIsAuth()">
-                    <p class="header__fio">{{managerService.managers[0].name}} {{managerService.managers[0].surname}}</p>
-                    <p class="header__jobpost">{{managerService.managers[0].jobpost}}</p>
-                </div>
-                <a class="btn header__btn" routerLink="/login" *ngIf="!auth.getIsAuth(); else authorizated">Войти</a>
-                <ng-template #authorizated>
-                    <a class="btn header__btn" (click)="auth.logout()" routerLink="/">Выйти</a>
-                </ng-template>
-            </div>
-
         </div>
     </div>
 </header>
+
+<ng-template #authorizated>
+    <header class="header" style="background-color: #303030;">
+        <div class="wrapper">
+                <div class="header__wrapper">
+                    <div class="header__logo-with-title">
+                        <a href="/" class="header__logo-link">
+                            <img src="../assets/images/header-logo.png" alt="Discover Amazing places in Japan" class="header__logo-pic">
+
+                        </a>
+                        <h1 class="header__title">Строительный калькулятор</h1>
+                    </div>
+                    <div class="header__fjb">
+                        <div class="header__fio-jobpost" *ngIf="auth.getIsAuth()">
+                            <p class="header__fio">{{managerService.managers[0].name}} {{managerService.managers[0].surname}}</p>
+                            <p class="header__jobpost">{{managerService.managers[0].jobpost}}</p>
+                        </div>
+                        <a class="btn header__btn" (click)="auth.logout()" routerLink="/">Выйти</a>
+                    </div>
+
+                </div>
+        </div>
+    </header>
+</ng-template>
 <!-- Header end -->
 
 <router-outlet></router-outlet>

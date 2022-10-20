@@ -2,7 +2,7 @@
     <div class="clients__container">
         <h1 class="clients__title">Клиенты</h1>
         <button class="btn clients__btn" routerLink="/clientregistration">Создать клиента</button>
-
+        <button class="btn" (click)="clientsService.getAllUsers()">получить клиентов</button>
         <div class="clients__cards">
             <div class="clients__card" *ngFor="let cl of clientsService.clients">
                 <a class="link-clients__card" [routerLink]="['/clientspage', cl.id]">
