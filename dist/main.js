@@ -768,11 +768,17 @@ class ClientsPageComponent {
                             this.authService.setAuthTokens(this.newTokens.access_token, this.newTokens.refresh_token);
                             this.cookieService.set('access_token', this.authService.getAuthTokens().access_token, { expires: 1 });
                             this.cookieService.set('refresh_token', this.authService.getAuthTokens().refresh_token, { expires: 1 });
+                            window.location.reload();
                         },
                         error: (err) => {
                             console.log('error: ', err);
+                            if (err.status == 403) {
+                                alert('Ваша сессия закончилась. Авторизуйтесь заново');
+                                this.authService.logout();
+                                this.router.navigate(['/']);
+                            }
                         },
-                        complete: () => this.router.navigate(['/clientspage'])
+                        complete: () => { }
                     });
                 }
             },
