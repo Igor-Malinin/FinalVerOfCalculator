@@ -28,4 +28,7 @@ export class ClientComponent implements OnInit {
     })
   }
 
+  updateClient () {
+
+  }
 }

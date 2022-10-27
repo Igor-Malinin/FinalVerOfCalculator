@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {AuthService} from "../services/auth.service";
-import {AuthRequest} from "../entity/authRequest";
-import {deserialize} from 'class-transformer';
-import {ManagerService} from "../services/manager.service";
-import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-login',
@@ -13,16 +9,14 @@ import {Router} from "@angular/router";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
   username!: string
   password!: string
-  authRequest!: any
   isAuthenticated: boolean = false
   er:boolean = false
   erStatus: number
+
   constructor(private authService: AuthService,
               private cookieService: CookieService,
-              private snackBar: MatSnackBar,
               private router: Router
               ) {
   }
@@ -33,31 +27,47 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  conLo() {
-    console.log('this happened')
-  }
-
   onLoginClick() {
     const subject = this.authService.login(this.username, this.password)
-    console.log('After Auth:', subject)
-    // this.authService.setAuth(true)
     subject.subscribe({
       next: (msg) => {
+        let role: string
         this.authService.setAuthTokens(
             JSON.parse(String(msg.body)).access_token,
             JSON.parse(String(msg.body)).refresh_token
         )
+        if (JSON.parse(String(msg.body)).user.groupOfUsers.length == 3)
+          role = 'ADMIN'
+        else
+          role = 'MANAGER'
+        this.authService.setCurrentManager(
+            JSON.parse(String(msg.body)).user.id,
+            JSON.parse(String(msg.body)).user.surname,
+            JSON.parse(String(msg.body)).user.name,
+            JSON.parse(String(msg.body)).user.patronymic,
+            JSON.parse(String(msg.body)).user.login,
+            role,
+        )
         console.log('access_token: ', this.authService.getAuthTokens().access_token)
         console.log('refresh_token: ', this.authService.getAuthTokens().refresh_token)
-        // const jsonObject: JSON = JSON(msg.body)
-        // log.info(jsonObject.getString("access_token"));
-        // console.log('message received: ', this.authTokens)
-        this.authService.setAuth(true)
-        // this.authService.isAuthenticated()
-        this.isAuthenticated = true
-      }, // Called whenever there is a message from the server.
+        console.log('CurrentManager: ', this.authService.getCurrentManager())
+        this.cookieService.set('name','Calculator');
+        this.cookieService.set('access_token', this.authService.getAuthTokens().access_token, {expires: 1})
+        this.cookieService.set('refresh_token', this.authService.getAuthTokens().refresh_token, {expires: 1})
+        this.cookieService.set('isAuthenticated', msg.statusText)
+        this.isAuthenticated = (msg.statusText == 'OK')
+        this.cookieService.set('id', JSON.parse(String(msg.body)).user.id)
+        this.cookieService.set('surname', JSON.parse(String(msg.body)).user.surname)
+        this.cookieService.set('name', JSON.parse(String(msg.body)).user.name)
+        this.cookieService.set('patronymic', JSON.parse(String(msg.body)).user.patronymic)
+        this.cookieService.set('userName', this.username)
+        this.cookieService.set('role', role)
+        console.log('cookieservice: ', this.cookieService)
+        this.authService.setAuth(this.isAuthenticated)
+        return 'OK'
+      },
       error: (err) => {
-        this.authService.setAuth(false)
+        this.authService.setAuth(this.isAuthenticated)
         console.log('error received:', err)
         if (err.status == 403) {
           this.er = true
@@ -65,10 +75,10 @@ export class LoginComponent implements OnInit {
         }
         else {
           this.er = true
-          this.erStatus = 401
+          this.erStatus = 404
         }
-      }, // Called if at any point WebSocket API signals some kind of error.
-      complete: () => this.router.navigate(['/clientspage']) // Called when connection is closed (for whatever reason).
+      },
+      complete: () => this.router.navigate(['/clientspage'])
     })
   }
 }

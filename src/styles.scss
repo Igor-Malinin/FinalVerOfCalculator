@@ -433,7 +433,7 @@ textarea {
   color: $text-color-lightblue;
   border: 2px solid $border-color-blue;
   border-radius: 5px;
-  box-shadow: 0 0 6px 1px $border-color-blue;
+  box-shadow: 0 0 4px 1px $border-color-blue;
   transition: all 0.1s ease-in-out;
   cursor: pointer;
   &:hover {
@@ -445,7 +445,7 @@ textarea {
   &:disabled {
     color: #dcdcdc;
     border: 2px solid #dcdcdc;
-    box-shadow: 0 0 6px 1px #dcdcdc;
+    box-shadow: 0 0 4px 1px #dcdcdc;
     cursor: not-allowed;
     &:hover {
       background: rgba(57, 57, 57, 0.3);

@@ -8,7 +8,7 @@
             <input type="password" name="password" class="login__input" placeholder="Пароль" [(ngModel)]="password" (keyup.enter)="onLoginClick()">
             <button #buttonCli class="btn login__btn" (click)="onLoginClick()">Войти</button>
 
-            <p class="danger-text" *ngIf="erStatus == 401; else Forbidden403">Ошибка</p>
+            <p class="danger-text" *ngIf="erStatus == 404; else Forbidden403">Ошибка</p>
             <ng-template #Forbidden403>
                 <p class="danger-text" *ngIf="erStatus == 403">Неверное имя пользователя или пароль</p>
             </ng-template>

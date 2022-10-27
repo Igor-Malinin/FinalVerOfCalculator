@@ -1,5 +1,5 @@
 <!-- Header start -->
-<header class="header" *ngIf="!auth.getIsAuth(); else authorizated">
+<header class="header" *ngIf="!authService.getIsAuth(); else authorizated">
     <div class="wrapper">
         <div class="header__wrapper">
             <div class="header__logo-with-title" style="width: 100%; justify-content: space-between">
@@ -22,11 +22,14 @@
                         <h1 class="header__title">Строительный калькулятор</h1>
                     </div>
                     <div class="header__fjb">
-                        <div class="header__fio-jobpost" *ngIf="auth.getIsAuth()">
-                            <p class="header__fio">{{managerService.managers[0].name}} {{managerService.managers[0].surname}}</p>
-                            <p class="header__jobpost">{{managerService.managers[0].jobpost}}</p>
+                        <div class="header__fio-jobpost" *ngIf="authService.getIsAuth()">
+                            <p class="header__fio">{{authService.getCurrentManager().name}} {{authService.getCurrentManager().surname}}</p>
+                            <p class="header__jobpost" *ngIf="authService.getCurrentManager().role == 'ADMIN'; else manager">Администратор</p>
+                            <ng-template #manager>
+                                <p class="header__jobpost">Менеджер</p>
+                            </ng-template>
                         </div>
-                        <a class="btn header__btn" (click)="auth.logout()" routerLink="/">Выйти</a>
+                        <a class="btn header__btn" (click)="authService.logout()" routerLink="/">Выйти</a>
                     </div>
 
                 </div>

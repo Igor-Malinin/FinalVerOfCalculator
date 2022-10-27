@@ -1,5 +1,5 @@
 import {NgModule} from "@angular/core";
-import {RouterModule, Routes} from "@angular/router";
+import {CanActivateChild, RouterModule, Routes} from "@angular/router";
 import {ErrorPageComponent} from "./error-page/error-page.component";
 import {LoginComponent} from "./login/login.component";
 import {MainPageComponent} from "./main-page/main-page.component";
@@ -13,7 +13,7 @@ const routes: Routes = [
     {path: 'clientspage', component: ClientsPageComponent, canActivate: [AuthGuard]},
     {path: 'clientspage/:id', component: ClientComponent},
     {path: 'login', component: LoginComponent},
-    {path: 'clientregistration', component: ClientRegistrationComponent},
+    {path: 'clientregistration', component: ClientRegistrationComponent, canActivate: [AuthGuard]},
 
     {path: 'error', component: ErrorPageComponent},
 

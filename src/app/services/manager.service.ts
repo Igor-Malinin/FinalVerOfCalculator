@@ -22,7 +22,7 @@ export class ManagerService {
       name: 'Игорь',
       surname: 'Малинин',
       patronymic: 'Игоревич',
-      jobpost: 'Старший Менеджер',
+      jobpost: 'Менеджер',
       telephone: 89608223422,
       email: 'igorswayts@gmail.com',
       password: 12345678

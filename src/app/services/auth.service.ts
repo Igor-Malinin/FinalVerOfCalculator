@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpRequest} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthRequest} from "../entity/authRequest";
+import {CurrentManager} from "../entity/currentManager";
+import {CookieService} from "ngx-cookie-service";
 
 const API_URL: string = 'http://51.250.54.62:8080'
 
@@ -9,11 +11,13 @@ const API_URL: string = 'http://51.250.54.62:8080'
 })
 export class AuthService {
   private authTokens!: AuthRequest
+  private currentManager!: CurrentManager
   private isAuth = false
   username = ''
   password = ''
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private cookieService: CookieService) {
   }
 
   login(username: string, password: string) {
@@ -31,7 +35,16 @@ export class AuthService {
   }
 
   logout() {
+    this.cookieService.deleteAll()
     this.isAuth = false
+  }
+
+  refreshToken () {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.cookieService.get('refresh_token')
+    })
+    return this.http.get(API_URL + '/api/token/refresh', {headers: headers})
   }
 
   isAuthenticated(): Promise<boolean> {
@@ -56,5 +69,18 @@ export class AuthService {
       access_token: access_token,
       refresh_token: refresh_token
     } || {}
+  }
+  getCurrentManager () {
+    return this.currentManager
+  }
+  setCurrentManager (id: number, surname: string, name: string, patronymic: string, login: string, role: string) {
+    this.currentManager = {
+      id: id,
+      surname: surname,
+      name: name,
+      patronymic: patronymic,
+      login: login,
+      role: role
+    }
   }
 }
