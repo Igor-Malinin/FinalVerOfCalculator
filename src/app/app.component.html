@@ -29,7 +29,10 @@
                                 <p class="header__jobpost">Менеджер</p>
                             </ng-template>
                         </div>
-                        <a class="btn header__btn" (click)="authService.logout()" routerLink="/">Выйти</a>
+                        <div style="display: flex; flex-flow: column; gap: 10px; text-align: center;">
+                            <a class="btn header__btn" (click)="authService.logout()" routerLink="/">Выйти</a>
+                            <a class="btn header__btn" routerLink="/clientspage">Клиенты</a>
+                        </div>
                     </div>
 
                 </div>

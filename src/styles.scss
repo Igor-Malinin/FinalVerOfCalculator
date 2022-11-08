@@ -428,7 +428,7 @@ textarea {
 .btn {
   display: inline-block;
   font-size: 1rem;
-  padding: 0.4rem 0.8rem;
+  padding: 7px 13px;
   background-color: rgba(57, 57, 57, 0.3);
   color: $text-color-lightblue;
   border: 2px solid $border-color-blue;
@@ -504,6 +504,26 @@ input:-webkit-autofill {
 .wrapper{
   max-width: 1060px;
   margin: 0 auto;
+}
+.component__container {
+  position: relative;
+  margin-top: 200px;
+  margin-bottom: 30px;
+}
+.flex-centrification-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.title-with-lines {
+  display: table;
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px 0;
+  margin: 0 auto 2rem;
+  border-top: 4px solid $text-color-light;
+  border-bottom: 4px solid $text-color-light;
 }
 @media (max-width: 1087px) {
   .wrapper {

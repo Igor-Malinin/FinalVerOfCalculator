@@ -14,7 +14,7 @@ export class ClientsPageComponent implements OnInit {
 
   constructor(
       public clientsService: ClientsService,
-      private authService: AuthService,
+      public authService: AuthService,
       private route: ActivatedRoute,
       private router: Router,
       private cookieService: CookieService
@@ -23,7 +23,6 @@ export class ClientsPageComponent implements OnInit {
   ngOnInit(): void {
     this.clientsService.getAllClients().subscribe({
       next: (msg) => {
-        // console.log(msg)
         console.log(JSON.parse(String(msg.body)))
         this.clientsService.clients = JSON.parse(String(msg.body))
       },
@@ -37,15 +36,21 @@ export class ClientsPageComponent implements OnInit {
               this.authService.setAuthTokens(this.newTokens.access_token, this.newTokens.refresh_token)
               this.cookieService.set('access_token', this.authService.getAuthTokens().access_token, {expires: 1})
               this.cookieService.set('refresh_token', this.authService.getAuthTokens().refresh_token, {expires: 1})
+              window.location.reload()
             },
             error: (err) => {
               console.log('error: ', err)
+              if (err.status == 403) {
+                alert('Ваша сессия закончилась. Авторизуйтесь заново')
+                this.authService.logout()
+              }
             },
-            complete: () => this.router.navigate(['/clientspage'])
+            complete: () => {}
           })
         }
       },
-      complete: () => {}
+      complete: () => this.router.navigate(['/clientspage'])
     })
   }
+
 }

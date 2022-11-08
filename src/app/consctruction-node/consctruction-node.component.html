@@ -1,0 +1,13 @@
+<div class="wrapper">
+    <div class="construction-node__container">
+        <button class="btn" [routerLink]="['/clientspage', clientId]">назад</button>
+        <div class="flex-centrification-container">
+            <div class="construction-node__box">
+                <h1 class="construction-node__title">Выбор конструктивного элемента</h1>
+                <button class="btn construction-node__btn" [routerLink]="['/clientspage', clientId, 'construction', 'houseframecalc']"><img src="https://cdn1.iconfinder.com/data/icons/building-and-construction-4/24/house-frame-construction-lumber-framing-building-build-512.png" alt="каркас" class="construction-node__img"> Каркас</button>
+                <button class="btn construction-node__btn" [routerLink]="['/clientspage', clientId, 'construction', 'housefoundationcalc']"><img src="https://cdn-icons-png.flaticon.com/512/113/113606.png" alt="фундамент" class="construction-node__img"> Фундамент</button>
+                <button class="btn construction-node__btn" [routerLink]="['/clientspage', clientId, 'construction', 'houseroofcalc']"><img src="https://www.downloadclipart.net/large/2051-peterm-housefly-design.png" alt="крыша" class="construction-node__img"> Крыша</button>
+            </div>
+        </div>
+    </div>
+</div>

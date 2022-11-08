@@ -34,9 +34,7 @@ export class AppComponent implements OnInit {
           this.cookieService.get('userName'),
           this.cookieService.get('role'),
       )
-      this.router.navigate(['/clientspage'])
     }
-    console.log(this.isAuthenticated)
   }
 
 

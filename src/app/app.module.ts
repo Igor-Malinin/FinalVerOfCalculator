@@ -15,6 +15,10 @@ import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MaterialModule} from "./material/material.module";
 import {NgSelectModule} from '@ng-select/ng-select';
+import { ConsctructionNodeComponent } from './consctruction-node/consctruction-node.component';
+import { HouseframeCalcComponent } from './houseframe-calc/houseframe-calc.component';
+import { HousefoundationCalcComponent } from './housefoundation-calc/housefoundation-calc.component';
+import { HouseroofCalcComponent } from './houseroof-calc/houseroof-calc.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +29,11 @@ import {NgSelectModule} from '@ng-select/ng-select';
         ClientsPageComponent,
         ClientComponent,
         CellphonePipe,
-        ClientRegistrationComponent
+        ClientRegistrationComponent,
+        ConsctructionNodeComponent,
+        HouseframeCalcComponent,
+        HousefoundationCalcComponent,
+        HouseroofCalcComponent
     ],
     imports: [
         BrowserModule,

@@ -1,0 +1,38 @@
+@use "src/styles";
+
+.construction-node__container {
+  margin-top: 200px;
+}
+
+.construction-node__box {
+  font-size: 18px;
+  width: 400px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 40px;
+  padding: 30px 0;
+  border: 3px solid styles.$border-color-lightgrey;
+  border-radius: 10px;
+  background-color: styles.$back-color-dark;
+}
+
+.construction-node__btn {
+  font-size: 18px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 220px;
+  padding: 8px 12px;
+}
+
+.construction-node__img {
+  width: 50px;
+  margin-right: 30px;
+  background-color: styles.$text-color-lightblue;
+  border-radius: 6px;
+  padding: 4px;
+}
+

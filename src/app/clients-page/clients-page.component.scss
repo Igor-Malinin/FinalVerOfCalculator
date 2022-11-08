@@ -1,19 +1,9 @@
 @use "src/styles";
 
-.clients__container {
+.component__container {
   position: relative;
   margin-top: 200px;
   margin-bottom: 30px;
-}
-.clients__title {
-  display: table;
-  font-size: 26px;
-  font-weight: bold;
-  text-align: center;
-  padding: 5px 0;
-  margin: 0 auto 1rem;
-  border-top: 4px solid styles.$text-color-light;
-  border-bottom: 4px solid styles.$text-color-light;
 }
 .clients__btn {
   margin-bottom: 40px;
@@ -27,17 +17,25 @@
   align-items: center;
   gap: 80px;
 }
-.clients__card {
+//.clients__card {
+//  min-width: 300px;
+//  background-color: styles.$back-color-dark;
+//  border: 2px solid styles.$border-color-lightgrey;
+//  border-radius: 10px;
+//  transition: 0.1s ease-in-out;
+//}
+.btn-clients__card {
   min-width: 300px;
   background-color: styles.$back-color-dark;
+  color: styles.$text-color-light;
   border: 2px solid styles.$border-color-lightgrey;
   border-radius: 10px;
   transition: 0.1s ease-in-out;
 }
-.clients__card:hover {
+.btn-clients__card:hover {
   background-color: #282828;
 }
-.clients__card:active {
+.btn-clients__card:active {
   box-shadow: inset 0 0 5px 1px styles.$text-color-light;
 }
 .link-clients__card {

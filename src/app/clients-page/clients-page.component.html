@@ -1,10 +1,11 @@
 <div class="wrapper">
-    <div class="clients__container">
-        <h1 class="clients__title">Клиенты</h1>
+    <div class="component__container">
+        <h1 class="title-with-lines">Клиенты</h1>
         <button class="btn clients__btn" routerLink="/clientregistration">Создать клиента</button>
+<!--        <button class="btn clients__btn" routerLink="/clientregistration" *ngIf="authService.getCurrentManager().role == 'ADMIN'">Зарегистрировать менеджера</button>-->
         <div class="clients__cards">
             <div class="clients__card" *ngFor="let cl of clientsService.clients">
-                <a class="link-clients__card" [routerLink]="['/clientspage', cl.id]">
+                <button class="btn-clients__card" [routerLink]="['/clientspage', cl.id]">
                     <p class="clients__card-line">
                         {{cl.surname}}
                         {{cl.name}}
@@ -16,7 +17,7 @@
 <!--                    <p class="clients__card-line">-->
 <!--                        {{cl.telephoneNumber | cellphone}}-->
 <!--                    </p>-->
-                </a>
+                </button>
             </div>
         </div>
 

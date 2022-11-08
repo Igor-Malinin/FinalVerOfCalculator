@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthRequest} from "../entity/authRequest";
 import {CurrentManager} from "../entity/currentManager";
 import {CookieService} from "ngx-cookie-service";
+import {Router} from "@angular/router";
 
 const API_URL: string = 'http://51.250.54.62:8080'
 
@@ -17,7 +18,9 @@ export class AuthService {
   password = ''
 
   constructor(private http: HttpClient,
-              private cookieService: CookieService) {
+              private cookieService: CookieService,
+              private router: Router
+  ) {
   }
 
   login(username: string, password: string) {
@@ -37,6 +40,8 @@ export class AuthService {
   logout() {
     this.cookieService.deleteAll()
     this.isAuth = false
+    window.location.reload()
+    this.router.navigate(['/'])
   }
 
   refreshToken () {
