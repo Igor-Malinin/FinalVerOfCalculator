@@ -2291,6 +2291,9 @@ class AuthService {
         setTimeout(() => {
             this.router.navigate(['/']);
             window.location.reload();
+        }, 100);
+        setTimeout(() => {
+            window.location.reload();
         }, 200);
     }
     refreshToken() {
