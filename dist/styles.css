@@ -408,6 +408,33 @@ input:-webkit-autofill {
   -webkit-text-fill-color: #eeeeee !important; /* цвет текста */
   color: #eeeeee !important; /* цвет текста */
 }
+select {
+  width: 100%;
+  font-size: 18px;
+  padding: 10px;
+  color: #eeeeee;
+  background-color: #303030;
+  border: 2px solid #6b6b6b;
+  border-radius: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+select.ng-invalid.ng-touched {
+  border: 2px solid #fd6868;
+}
+select.ng-valid.ng-touched {
+  border: 2px solid #aaff8e;
+}
+select:not([multiple]) {
+  padding-right: 1.2em;
+  background-repeat: no-repeat;
+  background-position: calc(100% - 0.65em) 0.75em;
+  background-size: 1.5em auto;
+  background-image: url('drop-arrow-blue2.png');
+}
+select::-ms-expand {
+  display: none;
+}
 .wrapper {
   max-width: 1060px;
   margin: 0 auto;
