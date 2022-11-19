@@ -459,6 +459,10 @@ select::-ms-expand {
   border-top: 4px solid #eeeeee;
   border-bottom: 4px solid #eeeeee;
 }
+.right-side-text {
+  text-align: right;
+  margin-bottom: 15px;
+}
 @media (max-width: 1087px) {
   .wrapper {
     max-width: 970px;
