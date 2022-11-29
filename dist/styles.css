@@ -390,6 +390,21 @@ a, a:active, a:focus {
 ::placeholder {
   color: #eeeeee;
 }
+.validation__input-style {
+  width: 100%;
+  font-size: 18px;
+  padding: 10px;
+  color: #eeeeee;
+  background-color: #303030;
+  border: 2px solid #6b6b6b;
+  border-radius: 10px;
+}
+.validation__input-style.ng-invalid.ng-touched {
+  border: 2px solid #fd6868;
+}
+.validation__input-style.ng-valid.ng-touched {
+  border: 2px solid #aaff8e;
+}
 .input__style {
   width: 300px;
   font-size: 18px;
