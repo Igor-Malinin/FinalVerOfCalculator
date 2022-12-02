@@ -10,18 +10,18 @@ import {ClientRegistrationComponent} from "./client-registration/client-registra
 import {ConsctructionNodeComponent} from "./consctruction-node/consctruction-node.component";
 import {HouseframeCalcComponent} from "./houseframe-calc/houseframe-calc.component";
 import {HousefoundationCalcComponent} from "./housefoundation-calc/housefoundation-calc.component";
-import {HouseroofCalcComponent} from "./houseroof-calc/houseroof-calc.component";
+import {ResultsComponent} from "./results/results.component";
 
 const routes: Routes = [
     {path: '', component: MainPageComponent},
     {path: 'clientspage', component: ClientsPageComponent, canActivate: [AuthGuard]},
-    {path: 'clientspage/:id', component: ClientComponent},
+    {path: 'clientspage/:id', component: ClientComponent, canActivate: [AuthGuard]},
     {path: 'login', component: LoginComponent},
     {path: 'clientregistration', component: ClientRegistrationComponent, canActivate: [AuthGuard]},
     {path: 'clientspage/:id/construction', component: ConsctructionNodeComponent, canActivate: [AuthGuard]},
     {path: 'clientspage/:id/construction/houseframecalc', component: HouseframeCalcComponent, canActivate: [AuthGuard]},
     {path: 'clientspage/:id/construction/housefoundationcalc', component: HousefoundationCalcComponent, canActivate: [AuthGuard]},
-    {path: 'clientspage/:id/construction/houseroofcalc', component: HouseroofCalcComponent, canActivate: [AuthGuard]},
+    {path: 'clientspage/:id/:idRes', component: ResultsComponent, canActivate: [AuthGuard]},
 
     {path: 'error', component: ErrorPageComponent},
 

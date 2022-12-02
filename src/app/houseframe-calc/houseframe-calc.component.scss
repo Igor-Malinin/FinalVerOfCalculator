@@ -4,3 +4,172 @@
 .title-with-lines {
   margin-top: 30px;
 }
+
+.frame__input {
+  width: 100%;
+  font-size: 18px;
+  padding: 10px;
+  color: styles.$text-color-light;
+  background-color: styles.$back-color-dark;
+  border: 2px solid styles.$border-color-lightgrey;
+  border-radius: 10px;
+  &.ng-invalid.ng-touched {
+    border: 2px solid styles.$danger-color;
+  }
+  &.ng-valid.ng-touched {
+    border: 2px solid styles.$valid-color;
+  }
+}
+.validation {
+  margin-top: 10px;
+  color: styles.$danger-color;
+}
+
+.select-options {
+  width: 200px;
+  font-size: 18px;
+  padding: 10px;
+  color: styles.$text-color-light;
+  background-color: styles.$back-color-dark;
+  border: 2px solid styles.$border-color-lightgrey;
+  border-radius: 10px;
+  &.ng-invalid.ng-touched {
+    border: 2px solid styles.$danger-color;
+  }
+  &.ng-valid.ng-touched {
+    border: 2px solid styles.$valid-color;
+  }
+}
+
+.consider {
+  color: styles.$text-color-lightblue;
+}
+
+.not-consider {
+  color: styles.$text-color-light;
+}
+
+.frame__form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.frame__form-control {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+.address-clearbtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px 0;
+}
+
+.form__label {
+  display: inline-block;
+}
+
+.with-clear-btn{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label-item__flex {
+  width: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .frame__input {
+    width: 200px;
+    text-align: right;
+  }
+  margin-bottom: 10px;
+}
+
+.btn-add-floor {
+  width: 200px;
+}
+.btn-consider {
+  margin-right: 30px;
+}
+
+.form__inner-title {
+  font-weight: bold;
+}
+
+.form__floor-title {
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.inner-floor-flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin: 10px 0;
+  .floor-left-side {
+    border: 2px solid styles.$back-color-dark;
+    border-radius: 5px;
+    padding: 15px 10px 0 10px;
+    background-color: #3f3f3f;
+  }
+  .floor-right-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 2px solid styles.$back-color-dark;
+    border-radius: 5px;
+    padding: 15px 10px 7px 10px;
+    background-color: #3f3f3f;
+  }
+}
+.flex-floors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px 30px;
+  justify-content: center;
+}
+
+.floor-box {
+  width: fit-content;
+  padding: 20px 25px;
+  border: 2px solid styles.$hover-color-dark;
+  background-color: styles.$back-housecalc;
+  border-radius: 5px;
+}
+
+.apertures-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.openings-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  .openings-inputs-flex {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    .frame__input {
+      width: 100%;
+    }
+  }
+}
+
+.main-items {
+  //margin-bottom: 40px;
+}
+
+.btn-calculate {
+  width: 50%;
+  align-self: center;
+}

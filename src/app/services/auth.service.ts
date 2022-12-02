@@ -38,10 +38,14 @@ export class AuthService {
   }
 
   logout() {
-    this.cookieService.deleteAll()
+    this.cookieService.deleteAll('/')
     this.isAuth = false
-    window.location.reload()
-    this.router.navigate(['/'])
+    setTimeout(() => {
+      this.router.navigate(['/'])
+    }, 200)
+    setTimeout(() => {
+      window.location.reload()
+    }, 300)
   }
 
   refreshToken () {

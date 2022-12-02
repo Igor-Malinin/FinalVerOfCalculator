@@ -36,7 +36,7 @@ export class ClientsPageComponent implements OnInit {
               this.authService.setAuthTokens(this.newTokens.access_token, this.newTokens.refresh_token)
               this.cookieService.set('access_token', this.authService.getAuthTokens().access_token, {expires: 1})
               this.cookieService.set('refresh_token', this.authService.getAuthTokens().refresh_token, {expires: 1})
-              window.location.reload()
+              setTimeout(() => {window.location.reload()}, 300)
             },
             error: (err) => {
               console.log('error: ', err)

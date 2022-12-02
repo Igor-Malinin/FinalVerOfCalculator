@@ -1,0 +1,100 @@
+<div class="wrapper">
+    <div class="component__container">
+        <div class="client__card-header">
+            <button class="btn" [routerLink]="['/clientspage', clientId]">назад</button>
+            <div class="client-info">
+                <p>{{getClient().surname}} {{getClient().name}} {{getClient().patronymic}}</p>
+                <p>{{getTel() | cellphone}}</p>
+                <p>{{getClient().address}}</p>
+                <p>{{getClient().email}}</p>
+            </div>
+        </div>
+        <h1 class="title-with-lines">Результаты расчета №{{results?.numberN}}</h1>
+        <div class="results__box">
+            <p style="margin-bottom: 10px">
+                <b>Дата: {{results?.created_date | date:'dd.MM.yyyy'}}</b>
+            </p>
+            <p>
+                <b>Адрес объекта: {{results?.addressOC}}</b>
+            </p>
+
+            <table class="calculation__table">
+                <tr class="calculation__table-headers">
+                    <th>Элемент</th>
+                    <th>Материал</th>
+                    <th>Ед.измерения</th>
+                    <th>Количество</th>
+                    <th>Стоимость материалов</th>
+                </tr>
+                <tr class="calculation__data long-line">
+                    <td colspan="4" style="border-right: none">Внешние стены</td>
+                    <td style="border-left: none">285 918</td>
+                </tr>
+                <tr class="calculation__data filling-data">
+                    <td>Парогидроизоляция</td>
+                    <td>Ондутис</td>
+                    <td>м<sup>2</sup></td>
+                    <td>207</td>
+                    <td>6900</td>
+                </tr>
+                <tr class="calculation__data filling-data">
+                    <td>Парогидроизоляция</td>
+                    <td>Ондутис</td>
+                    <td>м<sup>2</sup></td>
+                    <td>207</td>
+                    <td>6900</td>
+                </tr>
+                <tr class="calculation__data filling-data">
+                    <td>Парогидроизоляция</td>
+                    <td>Ондутис</td>
+                    <td>м<sup>2</sup></td>
+                    <td>207</td>
+                    <td>6900</td>
+                </tr>
+                <tr class="calculation__data filling-data">
+                    <td>Парогидроизоляция</td>
+                    <td>Ондутис</td>
+                    <td>м<sup>2</sup></td>
+                    <td>207</td>
+                    <td>6900</td>
+                </tr>
+                <tr class="calculation__data long-line">
+                    <td colspan="4" style="border-right: none">Внутренние стены</td>
+                    <td style="border-left: none">492 921</td>
+                </tr>
+                <tr class="calculation__data filling-data">
+                    <td>Парогидроизоляция</td>
+                    <td>Ондутис</td>
+                    <td>м<sup>2</sup></td>
+                    <td>207</td>
+                    <td>6900</td>
+                </tr>
+                <tr class="calculation__data filling-data">
+                    <td>Парогидроизоляция</td>
+                    <td>Ондутис</td>
+                    <td>м<sup>2</sup></td>
+                    <td>207</td>
+                    <td>6900</td>
+                </tr>
+                <tr class="calculation__data filling-data">
+                    <td>Парогидроизоляция</td>
+                    <td>Ондутис</td>
+                    <td>м<sup>2</sup></td>
+                    <td>207</td>
+                    <td>6900</td>
+                </tr>
+<!--                <tr class="calculation__data" *ngFor="let calc of getResults()">-->
+<!--&lt;!&ndash;                    <td><a class="client__card-link" [routerLink]="['/clientspage', , calc.id]">Расчет №{{calc.numberN}}</a></td>&ndash;&gt;-->
+<!--                    <td>{{calc.created_date | date:'dd.MM.yyyy'}}</td>-->
+<!--                    <td *ngIf="calc.cStatus; else falseStatus">Актуален</td>-->
+<!--                    <ng-template #falseStatus>-->
+<!--                        <td>Не актуален</td>-->
+<!--                    </ng-template>-->
+<!--                    <td>{{calc.addressOC}}</td>-->
+<!--                    <td><button [disabled]="true" class="btn">Копировать</button></td>-->
+<!--                    <td><button [disabled]="true" class="btn danger">Удалить</button></td>-->
+<!--                </tr>-->
+            </table>
+        </div>
+    </div>
+</div>

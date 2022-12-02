@@ -2,7 +2,454 @@
     <div class="component__container">
         <button class="btn" [routerLink]="['/clientspage', clientId, 'construction']">назад</button>
         <h1 class="title-with-lines">Каркас</h1>
-        <h1 style="text-align: center">И пошло поехало, всякая всячина тут буит</h1>
-        <p>cop</p>
+        <form class="frame__form" [formGroup]="formFrame" (ngSubmit)="submit()">
+            <h1 class="form__inner-title" style="font-size: 20px">Исходные данные</h1>
+            <div class="frame__form-control">
+                <div class="with-validation">
+                    <div class="with-clear-btn">
+                        <div class="label-item__flex" style="justify-content: flex-start; gap: 10px; margin-bottom: 0;">
+                            <label for="fFloorsNumber" class="form__label" style="margin-right: 30px">Количество этажей</label>
+                            <button class="btn" type="button" [disabled]="amount_floor.value <= 1" (click)="decAmountFloor()">-</button>
+                            <input type="text" id="fFloorsNumber" class="frame__input" formControlName="amount_floor" (focusout)="addFloor()" style="width: 50px" [value]="amount_floor.value">
+                            <button class="btn" type="button" [disabled]="amount_floor.value >= 20" (click)="incAmountFloor()">+</button>
+                        </div>
+                        <button class="btn" type="button" (click)="clearCalculation()" style="">Очистить расчет</button>
+                    </div>
+                    <div
+                        *ngIf="formFrame.get('amount_floor')?.invalid && formFrame.get('amount_floor')?.touched"
+                        class="validation"
+                    >
+                        <small *ngIf="formFrame.get('amount_floor')?.errors?.['required']">Поле не может быть пустым</small>
+                        <small *ngIf="formFrame.get('amount_floor').errors?.['min']">
+                            Введите не менее {{formFrame.get('amount_floor')?.errors?.['min'].min}} этажа.
+                            Вы ввели {{formFrame.get('amount_floor')?.errors?.['min'].actual}}.
+                        </small>
+                        <small *ngIf="formFrame.get('amount_floor')?.errors?.['max']">
+                            Введите не более {{formFrame.get('amount_floor')?.errors?.['max'].max}} этажей.
+                            Вы ввели {{formFrame.get('amount_floor')?.errors?.['max'].actual}}.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-floors" formArrayName="floor_number">
+                <div class="floor-box" *ngFor="let floor of floor_number.controls; let i = index">
+                    <h1 class="form__inner-title">
+                        Этаж {{i + 1}}
+                        <button class="btn" type="button" (click)="hidden[i] = !hidden[i]" style="margin-left: 30px">
+                            <small *ngIf="!hidden[i]; else show">Свернуть</small>
+                            <ng-template #show>Развернуть</ng-template>
+                        </button>
+                    </h1>
+
+                    <div class="floor-group" [formGroupName]="i" *ngIf="!hidden[i]">
+                        <div class="inner-floor-flex">
+                            <div class="floor-left-side">
+                                <div class="main-items">
+                                    <div class="label-item__flex">
+                                        <label for="ffloor_height" class="form__label">Высота этажа</label>
+                                        <input type="text" id="ffloor_height" class="frame__input" formControlName="floor_height">
+
+                                    </div>
+                                    <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['floor_height']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['floor_height']?.touched"
+                                            class="validation right-side-text"
+                                    >
+                                        <small>Поле не может быть пустым</small>
+                                    </div>
+                                    <div class="label-item__flex">
+                                        <label for="fperimeter_of_external_walls" class="form__label">Периметр внешних стен</label>
+                                        <input type="text" id="fperimeter_of_external_walls" class="frame__input" formControlName="perimeter_of_external_walls">
+                                    </div>
+                                    <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['perimeter_of_external_walls']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['perimeter_of_external_walls']?.touched"
+                                            class="validation right-side-text"
+                                    >
+                                        <small>Поле не может быть пустым</small>
+                                    </div>
+                                    <div class="label-item__flex">
+                                        <label for="fbase_area" class="form__label">Площадь основания</label>
+                                        <input type="text" id="fbase_area" class="frame__input" formControlName="base_area">
+                                    </div>
+                                    <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['base_area']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['base_area']?.touched"
+                                            class="validation right-side-text"
+                                    >
+                                        <small>Поле не может быть пустым</small>
+                                    </div>
+                                    <div class="label-item__flex">
+                                        <label for="external_wall_thickness" class="form__label">Толщина внешних стен</label>
+                                        <input type="text" id="external_wall_thickness" class="frame__input" formControlName="external_wall_thickness">
+                                    </div>
+                                    <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['external_wall_thickness']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['external_wall_thickness']?.touched"
+                                            class="validation right-side-text"
+                                    >
+                                        <small>Поле не может быть пустым</small>
+                                    </div>
+                                    <div class="label-item__flex">
+                                        <label for="finternal_wall_length" class="form__label">Длина внутренних стен</label>
+                                        <input type="text" id="finternal_wall_length" class="frame__input" formControlName="internal_wall_length">
+                                    </div>
+                                    <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['internal_wall_length']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['internal_wall_length']?.touched"
+                                            class="validation right-side-text"
+                                    >
+                                        <small>Поле не может быть пустым</small>
+                                    </div>
+                                    <div class="label-item__flex">
+                                        <label for="finternal_wall_thickness" class="form__label">Толщина внутренних стен</label>
+                                        <input type="text" id="finternal_wall_thickness" class="frame__input" formControlName="internal_wall_thickness">
+                                    </div>
+                                    <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['internal_wall_thickness']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['internal_wall_thickness']?.touched"
+                                            class="validation right-side-text"
+                                    >
+                                        <small>Поле не может быть пустым</small>
+                                    </div>
+                                </div>
+
+                                <div class="outer-walls-plating">
+                                    <h1 class="form__floor-title">Обшивки внешних стен</h1>
+                                    <div class="label-item__flex">
+                                        <label class="form__label">ОСБ снаружи</label>
+                                        <select class="select-options" formControlName="OSB_external_wall">
+                                            <option class="option" value=""> Выбрать </option>
+                                            <option class="option" value="OSB 9mm">ОСБ 9мм</option>
+                                            <option class="option" value="OSB 10mm">ОСБ 10мм</option>
+                                            <option class="option" value="OSB 15mm">ОСБ 15мм</option>
+                                            <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                        </select>
+                                    </div>
+                                    <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['OSB_external_wall']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['OSB_external_wall']?.touched"
+                                            class="validation right-side-text"
+                                    >
+                                        <small>Выберите ОСБ</small>
+                                    </div>
+                                    <div class="label-item__flex">
+                                        <label class="form__label">Парогидроизоляция</label>
+                                        <select class="select-options" formControlName="steam_waterproofing_external_wall">
+                                            <option class="option" value=""> Выбрать </option>
+                                            <option class="option" value="OSB 9mm">ОСБ 9мм</option>
+                                            <option class="option" value="OSB 10mm">ОСБ 10мм</option>
+                                            <option class="option" value="OSB 15mm">ОСБ 15мм</option>
+                                            <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                        </select>
+                                    </div>
+                                    <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['steam_waterproofing_external_wall']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['steam_waterproofing_external_wall']?.touched"
+                                            class="validation right-side-text"
+                                    >
+                                        <small>Выберите Парогидроизоляцию</small>
+                                    </div>
+                                    <div class="label-item__flex">
+                                        <label class="form__label">Ветрозащита</label>
+                                        <select class="select-options" formControlName="windscreen_external_wall">
+                                            <option class="option" value=""> Выбрать </option>
+                                            <option class="option" value="OSB 9mm">ОСБ 9мм</option>
+                                            <option class="option" value="OSB 10mm">ОСБ 10мм</option>
+                                            <option class="option" value="OSB 15mm">ОСБ 15мм</option>
+                                            <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                        </select>
+                                    </div>
+                                    <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['windscreen_external_wall']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['windscreen_external_wall']?.touched"
+                                            class="validation right-side-text"
+                                    >
+                                        <small>Выберите ветрозащиту</small>
+                                    </div>
+                                    <div class="label-item__flex">
+                                        <label class="form__label">Утеплитель</label>
+                                        <select class="select-options" formControlName="insulation_external_wall">
+                                            <option class="option" value=""> Выбрать </option>
+                                            <option class="option" value="OSB 9mm">ОСБ 9мм</option>
+                                            <option class="option" value="OSB 10mm">ОСБ 10мм</option>
+                                            <option class="option" value="OSB 15mm">ОСБ 15мм</option>
+                                            <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                        </select>
+                                    </div>
+                                    <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['insulation_external_wall']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['insulation_external_wall']?.touched"
+                                            class="validation right-side-text"
+                                    >
+                                        <small>Выберите утеплитель</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="floor-right-side">
+                                <div class="main-items">
+                                    <button class="btn btn-consider" type="button" *ngIf="!considerInnerWallsCalc[i]; else notCons" (click)="considerInnerWallsCalc[i] = !considerInnerWallsCalc[i]">Учесть</button>
+                                    <ng-template #notCons>
+                                        <button class="btn btn-consider" type="button" (click)="clearOSBInternal(i); considerInnerWallsCalc[i] = !considerInnerWallsCalc[i]">Не учитывать</button>
+                                    </ng-template>
+                                    <h1 class="form__label" [ngClass]="{
+                                        consider: considerInnerWallsCalc[i] === true,
+                                        'not-consider': considerInnerWallsCalc[i] === false
+                                    }">расчет обшивки внутренних стен</h1>
+                                    <div class="label-item__flex" *ngIf="considerInnerWallsCalc[i]" style="margin-top: 15px; margin-bottom: 0">
+                                        <label class="form__label">ОСБ внутри</label>
+                                        <select class="select-options" formControlName="OSB_internal_wall">
+                                            <option class="option" value=""> Выбрать </option>
+                                            <option class="option" value="OSB 9mm">ОСБ 9мм</option>
+                                            <option class="option" value="OSB 10mm">ОСБ 10мм</option>
+                                            <option class="option" value="OSB 15mm">ОСБ 15мм</option>
+                                            <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                        </select>
+                                    </div>
+                                    <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['OSB_internal_wall']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['OSB_internal_wall']?.touched"
+                                            class="validation right-side-text"
+                                    >
+                                        <small>Выберите ОСБ</small>
+                                    </div>
+                                </div>
+
+<!--                                <div class="main-items" formGroupName="openings" style="margin-bottom: 20px">-->
+<!--                                    <button class="btn btn-consider" type="button" (click)="considerOpenings[i] = !considerOpenings[i]">-->
+<!--                                        <small *ngIf="!considerOpenings[i]; else notCons">Учесть</small>-->
+<!--                                        <ng-template #notCons>Не учитывать</ng-template>-->
+<!--                                    </button>-->
+<!--                                    <h1 class="form__label" [ngClass]="{-->
+<!--                                        consider: considerOpenings[i] === true,-->
+<!--                                        'not-consider': considerOpenings[i] === false-->
+<!--                                    }" style="margin-bottom: 20px">двери и окна</h1>-->
+<!--                                    <div class="openings-flex" *ngIf="considerOpenings[i]">-->
+<!--                                        <div class="windows" formArrayName="windowsParams">-->
+<!--                                            <div class="label-with-btn">-->
+<!--                                                <label class="form__label" style="margin-right: 30px">Оконные проемы</label>-->
+<!--                                                <button class="btn" type="button" (click)="addWindows(i)">+</button>-->
+<!--                                                <button class="btn" type="button" [disabled]="windowsParams(i).length <= 1" (click)="deleteWindows(i)" style="margin-left: 15px; width: 40px">-</button>-->
+<!--                                            </div>-->
+<!--                                            <div class="openings-for-container" *ngFor="let windows of windowsParams(i).controls; let j = index" [formGroupName]="j">-->
+<!--                                                <div class="openings-inputs-flex">-->
+<!--                                                    <input type="text" class="frame__input" placeholder="Высота" formControlName="height">-->
+<!--                                                    <input type="text" class="frame__input" placeholder="Ширина" formControlName="width">-->
+<!--                                                    <input type="text" class="frame__input" placeholder="Количество" formControlName="amount">-->
+<!--                                                </div>-->
+<!--                                                <div-->
+<!--                                                        *ngIf="this.formFrame.controls['floor_number'].controls[i].controls['openings'].controls['windowsParams'].controls[j]?.invalid-->
+<!--                                                        && this.formFrame.controls['floor_number'].controls[i].controls['openings'].controls['windowsParams'].controls[j]?.touched"-->
+<!--                                                        class="validation right-side-text"-->
+<!--                                                >-->
+<!--                                                    <small>Укажите все параметры</small>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="external-doors-params" formArrayName="externalDoorsParams">-->
+<!--                                            <div class="label-with-btn">-->
+<!--                                                <label class="form__label" style="margin-right: 30px">Дверные проемы внешние</label>-->
+<!--                                                <button class="btn" type="button" (click)="addExternalDoors(i)">+</button>-->
+<!--                                                <button class="btn" type="button" [disabled]="externalDoorsParams(i).length <= 1" (click)="deleteExternalDoors(i)" style="margin-left: 15px; width: 40px">-</button>-->
+<!--                                            </div>-->
+<!--                                            <div class="openings-for-container" *ngFor="let externalDoors of externalDoorsParams(i).controls; let j = index" [formGroupName]="j">-->
+<!--                                                <div class="openings-inputs-flex">-->
+<!--                                                    <input type="text" class="frame__input" placeholder="Высота" formControlName="height">-->
+<!--                                                    <input type="text" class="frame__input" placeholder="Ширина" formControlName="width">-->
+<!--                                                    <input type="text" class="frame__input" placeholder="Количество" formControlName="amount">-->
+<!--                                                </div>-->
+<!--                                                <div-->
+<!--                                                        *ngIf="this.formFrame.controls['floor_number'].controls[i].controls['openings'].controls['externalDoorsParams'].controls[j]?.invalid-->
+<!--                                                        && this.formFrame.controls['floor_number'].controls[i].controls['openings'].controls['externalDoorsParams'].controls[j]?.touched"-->
+<!--                                                        class="validation right-side-text"-->
+<!--                                                >-->
+<!--                                                    <small>Укажите все параметры</small>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="inner-doors-params" formArrayName="internalDoorsParams">-->
+<!--                                            <div class="label-with-btn">-->
+<!--                                                <label class="form__label" style="margin-right: 30px">Дверные проемы внутренние</label>-->
+<!--                                                <button class="btn" type="button" (click)="addInnerDoors(i)">+</button>-->
+<!--                                                <button class="btn" type="button" [disabled]="internalDoorsParams(i).length <= 1" (click)="deleteInnerDoors(i)" style="margin-left: 15px; width: 40px">-</button>-->
+<!--                                            </div>-->
+<!--                                            <div class="openings-for-container" *ngFor="let innerDoors of internalDoorsParams(i).controls; let j = index" [formGroupName]="j">-->
+<!--                                                <div class="openings-inputs-flex">-->
+<!--                                                    <input type="text" class="frame__input" placeholder="Высота" formControlName="height">-->
+<!--                                                    <input type="text" class="frame__input" placeholder="Ширина" formControlName="width">-->
+<!--                                                    <input type="text" class="frame__input" placeholder="Количество" formControlName="amount">-->
+<!--                                                </div>-->
+<!--                                                <div-->
+<!--                                                        *ngIf="this.formFrame.controls['floor_number'].controls[i].controls['openings'].controls['internalDoorsParams'].controls[j]?.invalid-->
+<!--                                                        && this.formFrame.controls['floor_number'].controls[i].controls['openings'].controls['internalDoorsParams'].controls[j]?.touched"-->
+<!--                                                        class="validation right-side-text"-->
+<!--                                                >-->
+<!--                                                    <small>Укажите все параметры</small>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+                                <div class="main-items" formArrayName="apertures">
+                                    <button class="btn btn-consider" type="button" *ngIf="!considerOpenings[i]; else notCons2" (click)="considerOpenings[i] = !considerOpenings[i]">Учесть</button>
+                                    <ng-template #notCons2>
+                                        <button class="btn btn-consider" type="button" (click)="clearApertures(i); considerOpenings[i] = !considerOpenings[i]">Не учитывать</button>
+                                    </ng-template>
+                                    <h1 class="form__label" [ngClass]="{
+                                        consider: considerOpenings[i] === true,
+                                        'not-consider': considerOpenings[i] === false
+                                    }">двери и окна</h1>
+                                    <div class="apertures-container" *ngIf="considerOpenings[i]">
+                                        <button class="btn" type="button" (click)="addApertures(i)" style="margin-top: 25px">Добавить проемы</button>
+                                        <div class="openings-flex" *ngFor="let aperture of apertures(i).controls; let j = index" [formGroupName]="j">
+                                            <div class="apertures-with-amount-flex">
+                                                <div class="apertures-group" formGroupName="aperture">
+                                                    <div class="label-item__flex">
+                                                        <div class="label-with-btn">
+                                                            <select class="select-options" formControlName="type" style="margin-right: 20px; width: 320px;">
+                                                                <option class="option" value=""> Тип проема </option>
+                                                                <option class="option" value="Оконные проемы">Оконные проемы</option>
+                                                                <option class="option" value="Дверные проемы внешние">Дверные проемы внешние</option>
+                                                                <option class="option" value="Дверные проемы внутренние">Дверные проемы внутренние</option>
+                                                            </select>
+                                                            <button class="btn" type="button" [disabled]="apertures(i).length <= 1" (click)="deleteApertures(i, j)" style="margin-left: 15px">Удалить</button>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        *ngIf="formFrame.controls['floor_number'].controls[i].controls['apertures'].controls[j].controls['aperture'].controls['type']?.invalid
+                                                        && formFrame.controls['floor_number'].controls[i].controls['apertures'].controls[j].controls['aperture'].controls['type']?.touched"
+                                                        class="validation right-side-text"
+                                                    >
+                                                        <small>Выберите тип проемов</small>
+                                                    </div>
+                                                    <div class="openings-inputs-flex">
+                                                        <input type="text" class="frame__input" placeholder="Высота" formControlName="height">
+                                                        <input type="text" class="frame__input" placeholder="Ширина" formControlName="width">
+                                                    </div>
+                                                </div>
+                                                <input type="text" class="frame__input" placeholder="Количество" formControlName="amount">
+                                            </div>
+                                            <div
+                                                    *ngIf="this.formFrame.controls['floor_number'].controls[i].controls['apertures'].controls[j]?.invalid
+                                                    && this.formFrame.controls['floor_number'].controls[i].controls['apertures'].controls[j]?.touched"
+                                                    class="validation right-side-text"
+                                            >
+                                                <small>Укажите все параметры</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="overlaps-container">
+                                    <button class="btn btn-consider" type="button" *ngIf="!considerOverlaps[i]; else notCons3" (click)="considerOverlaps[i] = !considerOverlaps[i]">Учесть</button>
+                                    <ng-template #notCons3>
+                                        <button class="btn btn-consider" type="button" (click)="clearOverlaps(i); considerOverlaps[i] = !considerOverlaps[i]">Не учитывать</button>
+                                    </ng-template>
+                                    <h1 class="form__label" [ngClass]="{
+                                        consider: considerOverlaps[i] === true,
+                                        'not-consider': considerOverlaps[i] === false
+                                    }" style="margin-bottom: 15px">расчет перекрытий</h1>
+                                    <div class="overlaps-container" *ngIf="considerOverlaps[i]">
+                                        <div class="label-item__flex">
+                                            <label class="form__label">Толщина перекрытия</label>
+                                            <input type="text" class="frame__input" formControlName="overlap_thickness">
+                                        </div>
+                                        <div
+                                                *ngIf="formFrame.controls['floor_number'].controls[i].controls['overlap_thickness']?.invalid
+                                                && formFrame.controls['floor_number'].controls[i].controls['overlap_thickness']?.touched"
+                                                class="validation right-side-text"
+                                        >
+                                            <small>Введите толщину перекрытия</small>
+                                        </div>
+
+                                        <div class="label-item__flex">
+                                            <label for="OSB_thickness" class="form__label">ОСБ перекрытия</label>
+                                            <select class="select-options" id="OSB_thickness" formControlName="OSB_thickness">
+                                                <option class="option" value=""> Выбрать </option>
+                                                <option class="option" value="OSB 9mm">ОСБ 9мм</option>
+                                                <option class="option" value="OSB 10mm">ОСБ 10мм</option>
+                                                <option class="option" value="OSB 15mm">ОСБ 15мм</option>
+                                                <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                            </select>
+                                        </div>
+                                        <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['OSB_thickness']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['OSB_thickness']?.touched"
+                                            class="validation right-side-text"
+                                        >
+                                            <small>Выберите ОСБ</small>
+                                        </div>
+
+                                        <div class="label-item__flex">
+                                            <label class="form__label">Парогидроизоляция</label>
+                                            <select class="select-options"  formControlName="steam_waterproofing_thickness">
+                                                <option class="option" value=""> Выбрать </option>
+                                                <option class="option" value="OSB 9mm">ОСБ 9мм</option>
+                                                <option class="option" value="OSB 10mm">ОСБ 10мм</option>
+                                                <option class="option" value="OSB 15mm">ОСБ 15мм</option>
+                                                <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                            </select>
+                                        </div>
+                                        <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['steam_waterproofing_thickness']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['steam_waterproofing_thickness']?.touched"
+                                            class="validation right-side-text"
+                                        >
+                                            <small>Выберите парогидроизоляцию</small>
+                                        </div>
+
+                                        <div class="label-item__flex">
+                                            <label class="form__label">Ветрозащита</label>
+                                            <select class="select-options"  formControlName="windscreen_thickness">
+                                                <option class="option" value=""> Выбрать </option>
+                                                <option class="option" value="OSB 9mm">ОСБ 9мм</option>
+                                                <option class="option" value="OSB 10mm">ОСБ 10мм</option>
+                                                <option class="option" value="OSB 15mm">ОСБ 15мм</option>
+                                                <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                            </select>
+                                        </div>
+                                        <div
+                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['windscreen_thickness']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['windscreen_thickness']?.touched"
+                                            class="validation right-side-text"
+                                        >
+                                            <small>Выберите ветрозащиту</small>
+                                        </div>
+
+                                        <div class="label-item__flex">
+                                            <label class="form__label">Утеплитель</label>
+                                            <select class="select-options"  formControlName="insulation_thickness">
+                                                <option class="option" value=""> Выбрать </option>
+                                                <option class="option" value="OSB 9mm">ОСБ 9мм</option>
+                                                <option class="option" value="OSB 10mm">ОСБ 10мм</option>
+                                                <option class="option" value="OSB 15mm">ОСБ 15мм</option>
+                                                <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                            </select>
+                                        </div>
+                                        <div
+                                                *ngIf="formFrame.controls['floor_number'].controls[i].controls['insulation_thickness']?.invalid
+                                            && formFrame.controls['floor_number'].controls[i].controls['insulation_thickness']?.touched"
+                                                class="validation right-side-text"
+                                        >
+                                            <small>Выберите утеплитель</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <button class="btn" (click)="deleteFloor(i); decreaseVal()" style="margin-top: 5px;">Удалить этаж</button>
+                    </div>
+
+                </div>
+            </div>
+
+<!--            <button class="btn btn-app-wwd" type="submit" [disabled]="form.invalid || form.pending">Отправить</button>-->
+            <button class="btn btn-calculate" type="submit" >Рассчитать</button>
+        </form>
     </div>
 </div>

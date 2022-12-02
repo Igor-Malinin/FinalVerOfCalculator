@@ -1,22 +1,22 @@
 <div class="wrapper">
-    <div class="reg__client-form">
+    <div class="component__container">
         <button class="btn btn-go-back" type="button" routerLink="/clientspage">Назад</button>
         <form class="reg__form" [formGroup]="formClientReg" (ngSubmit)="submit()">
             <h1 class="reg__title">Регистрация нового клиента</h1>
 
             <div class="reg__form-control">
-                <input type="text" name="cName" class="reg__input" placeholder="Имя" formControlName="name">
+                <input type="text" name="surname" class="reg__input" placeholder="Фамилия" formControlName="surname">
                 <div
-                    *ngIf="formClientReg.get('name')?.invalid && formClientReg.get('name')?.touched"
+                    *ngIf="formClientReg.get('surname')?.invalid && formClientReg.get('surname')?.touched"
                     class="validation"
                 >
                     <small>Поле не может быть пустым</small>
                 </div>
             </div>
             <div class="reg__form-control">
-                <input type="text" name="surname" class="reg__input" placeholder="Фамилия" formControlName="surname">
+                <input type="text" name="cName" class="reg__input" placeholder="Имя" formControlName="name">
                 <div
-                    *ngIf="formClientReg.get('surname')?.invalid && formClientReg.get('surname')?.touched"
+                    *ngIf="formClientReg.get('name')?.invalid && formClientReg.get('name')?.touched"
                     class="validation"
                 >
                     <small>Поле не может быть пустым</small>

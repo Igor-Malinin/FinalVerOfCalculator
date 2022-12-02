@@ -2,6 +2,59 @@
     <div class="component__container">
         <button class="btn" [routerLink]="['/clientspage', clientId, 'construction']">назад</button>
         <h1 class="title-with-lines">Фундамент</h1>
-        <h1 style="text-align: center">И пошло поехало, всякая всячина тут буит</h1>
+        <form class="basement__form" [formGroup]="formBasement" (ngSubmit)="submit()">
+            <div class="basement__box">
+                <div class="basement__form-control">
+                    <div class="label-item__flex">
+                        <label class="form__label">Периметр внешних стен</label>
+                        <input type="text" name="perimeterofexternalwalls" class="basement__input" formControlName="perimeter_of_external_walls">
+                    </div>
+                    <div
+                            *ngIf="formBasement.get('perimeter_of_external_walls')?.invalid && formBasement.get('perimeter_of_external_walls')?.touched"
+                            class="validation"
+                    >
+                        <small>Поле не может быть пустым</small>
+                    </div>
+                </div>
+                <div class="basement__form-control">
+                    <div class="label-item__flex">
+                        <label class="form__label">Длина внутренних стен</label>
+                        <input type="text" name="internalwalllength" class="basement__input" formControlName="internal_wall_length">
+                    </div>
+                    <div
+                            *ngIf="formBasement.get('internal_wall_length')?.invalid && formBasement.get('internal_wall_length')?.touched"
+                            class="validation"
+                    >
+                        <small>Поле не может быть пустым</small>
+                    </div>
+                </div>
+                <div class="basement__form-control">
+                    <div class="label-item__flex">
+                        <label class="form__label">Бетонные сваи</label>
+                        <input type="text" name="concretepiles" class="basement__input" formControlName="concrete_piles">
+                    </div>
+                    <div
+                            *ngIf="formBasement.get('concrete_piles')?.invalid && formBasement.get('concrete_piles')?.touched"
+                            class="validation"
+                    >
+                        <small>Поле не может быть пустым</small>
+                    </div>
+                </div>
+                <div class="basement__form-control">
+                    <div class="label-item__flex" style="margin-bottom: 0;">
+                        <label class="form__label">Бетон</label>
+                        <input type="text" name="concrete" class="basement__input" formControlName="concrete">
+                    </div>
+                    <div
+                            *ngIf="formBasement.get('concrete')?.invalid && formBasement.get('concrete')?.touched"
+                            class="validation"
+                    >
+                        <small>Поле не может быть пустым</small>
+                    </div>
+                </div>
+            </div>
+            <button class="btn basement__btn" type="submit" [disabled]="formBasement.invalid">Рассчитать</button>
+
+        </form>
     </div>
 </div>

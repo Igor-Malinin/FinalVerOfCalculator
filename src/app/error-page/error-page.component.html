@@ -1,7 +1,9 @@
 <div class="wrapper">
     <div class="error__container-holder"></div>
     <div class="error__container">
-        <h1 class="error__title">Error 404</h1>
+        <h1 class="error__title">Ошибка</h1>
+        <h1 class="error__title" *ngIf="auth.getIsAuth()">Страницы не существует</h1>
+        <h1 class="error__title" *ngIf="!auth.getIsAuth()">Вам необходимо авторизоваться</h1>
         <a class="btn" *ngIf="!auth.getIsAuth(); else clientsPage" routerLink="/">Вернуться на домашнюю страницу</a>
         <ng-template #clientsPage>
             <a class="btn" routerLink="/clientspage">Вернуться на страницу клиентов</a>

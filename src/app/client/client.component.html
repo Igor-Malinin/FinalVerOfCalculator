@@ -1,7 +1,7 @@
 <div class="wrapper">
-    <div class="client__card">
+    <div class="component__container">
         <div class="client__card-header">
-            <button class="btn" routerLink="/clientspage">Назад</button>
+            <button class="btn" type="button" routerLink="/clientspage">Назад</button>
             <div class="client-info" *ngIf="!moreInfoToggle && !editToggle">
                 <p>{{getClient().surname}} {{getClient().name}} {{getClient().patronymic}}</p>
                 <p>{{getTel() | cellphone}}</p>
@@ -17,22 +17,109 @@
                     <a class="client__card-link" (click)="moreInfoToggle = !moreInfoToggle">Скрыть</a>
                 </div>
             </div>
-            <div class="client-info client-info__edit" *ngIf="editToggle">
-                <input class="input__style" type="text" placeholder="Фамилия" [(ngModel)]="client.surname">
-                <input class="input__style" type="text" placeholder="Имя" [(ngModel)]="client.name">
-                <input class="input__style" type="text" placeholder="Отчество" [(ngModel)]="client.patronymic">
-                <input class="input__style" type="text" placeholder="Номер телефона" [(ngModel)]="client.telephoneNumber">
-                <input class="input__style" type="text" placeholder="Адрес" [(ngModel)]="client.address">
-                <input class="input__style" type="text" placeholder="Email" [(ngModel)]="client.email">
-                <a class="client__card-link links-top-line-separator" (click)="
-                editToggle = !editToggle;
-                moreInfoToggle = !moreInfoToggle;
-                updateClientData()
-                ">Сохранить</a>
+            <div class="client-info client-info__edit" *ngIf="editToggle" [formGroup]="formEditClient">
+                <div class="edit__form-control">
+                    <input type="text" name="surname" class="edit__input" placeholder="Фамилия" formControlName="surname">
+                    <div
+                            *ngIf="formEditClient.get('surname')?.invalid && formEditClient.get('surname')?.touched"
+                            class="validation"
+                    >
+                        <small>Поле не может быть пустым</small>
+                    </div>
+                </div>
+                <div class="edit__form-control">
+                    <input type="text" name="cName" class="edit__input" placeholder="Имя" formControlName="name">
+                    <div
+                            *ngIf="formEditClient.get('name')?.invalid && formEditClient.get('name')?.touched"
+                            class="validation"
+                    >
+                        <small>Поле не может быть пустым</small>
+                    </div>
+                </div>
+                <div class="edit__form-control">
+                    <input type="text" name="patronymic" class="edit__input" placeholder="Отчество" formControlName="patronymic">
+                    <div
+                            *ngIf="formEditClient.get('patronymic')?.invalid && formEditClient.get('patronymic')?.touched"
+                            class="validation"
+                    >
+                        <small>Поле не может быть пустым</small>
+                    </div>
+                </div>
+                <div class="edit__form-control">
+                    <input type="text" name="telephoneNumber" class="edit__input" placeholder="Телефон" formControlName="telephoneNumber">
+                    <div
+                            *ngIf="formEditClient.get('telephoneNumber')?.invalid && formEditClient.get('telephoneNumber')?.touched"
+                            class="validation"
+                    >
+                        <small *ngIf="formEditClient.get('telephoneNumber')?.errors?.['required']">
+                            Поле не может быть пустым
+                        </small>
+                        <small *ngIf="formEditClient.get('telephoneNumber')?.hasError('minlength')">
+                            Введите телефон длиной {{formEditClient.get('telephoneNumber')?.errors?.['minlength'].requiredLength}} символов.
+                            Вы ввели {{formEditClient.get('telephoneNumber')?.errors?.['minlength'].actualLength}}.
+                        </small>
+                        <small *ngIf="formEditClient.get('telephoneNumber')?.hasError('maxlength')">
+                            Введите телефон длиной {{formEditClient.get('telephoneNumber')?.errors?.['maxlength'].requiredLength}} символов.
+                            Вы ввели {{formEditClient.get('telephoneNumber')?.errors?.['maxlength'].actualLength}}.
+                        </small>
+                    </div>
+                </div>
+                <div class="edit__form-control">
+                    <input type="text" name="email" class="edit__input" placeholder="E-mail" formControlName="email">
+                    <div
+                            *ngIf="formEditClient.get('email')?.invalid && formEditClient.get('email')?.touched"
+                            class="validation"
+                    >
+                        <small *ngIf="formEditClient.get('email')?.errors?.['required']">
+                            Поле не может быть пустым
+                        </small>
+                        <small *ngIf="formEditClient.get('email')?.errors?.['email']">
+                            Введите корректный E-mail
+                        </small>
+                    </div>
+                </div>
+                <div class="edit__form-control">
+                    <input type="text" name="address" class="edit__input" placeholder="Адрес" formControlName="address">
+                    <div
+                            *ngIf="formEditClient.get('address')?.invalid && formEditClient.get('address')?.touched"
+                            class="validation"
+                    >
+                        <small>Поле не может быть пустым</small>
+                    </div>
+                </div>
+                <div class="flex-links links-top-line-separator">
+                    <a class="client__card-link" (click)="
+                    editToggle = !editToggle;
+                    moreInfoToggle = !moreInfoToggle;
+                    updateClientData()
+                    ">Сохранить</a>
+                    <a class="client__card-link" (click)="
+                    editToggle = !editToggle;
+                    moreInfoToggle = !moreInfoToggle;
+                    ">Отменить</a>
+                </div>
             </div>
         </div>
 
-        <button class="btn" [routerLink]="['/clientspage', clientId, 'construction']">Создать расчет</button>
+        <form class="create-calculation__form">
+            <div class="frame__form-control" [formGroup]="formCreateCalculation">
+                <div class="address-clearbtn">
+                    <div class="address-validation">
+                        <div class="address-with-btn">
+                            <input type="text" name="fAddress" class="validation__input-style" placeholder="Адрес объекта строительства" formControlName="address_object_constractions">
+                            <button class="btn" type="submit" (click)="saveCalculation()" [routerLink]="['/clientspage', clientId, 'construction']" [disabled]="formCreateCalculation.invalid">Создать расчет</button>
+                        </div>
+                        <div
+                                *ngIf="formCreateCalculation.get('address_object_constractions')?.invalid && formCreateCalculation.get('address_object_constractions')?.touched"
+                                class="validation"
+                        >
+                            <small>Поле не может быть пустым</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
 
         <table class="calculation__table">
             <tr class="calculation__table-headers">
@@ -43,8 +130,8 @@
                 <th>Копирование</th>
                 <th>Удаление</th>
             </tr>
-            <tr class="calculation__data" *ngFor="let calc of calculationService.calculation">
-                <td><p class="client__card-link">Расчет №{{calc.numberN}}</p></td>
+            <tr class="calculation__data" *ngFor="let calc of resultsService.results">
+                <td><a class="client__card-link" [routerLink]="['/clientspage', clientId, calc.id]">Расчет №{{calc.numberN}}</a></td>
                 <td>{{calc.created_date | date:'dd.MM.yyyy'}}</td>
                 <td *ngIf="calc.cStatus; else falseStatus">Актуален</td>
                 <ng-template #falseStatus>

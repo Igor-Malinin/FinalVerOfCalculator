@@ -31,15 +31,20 @@ export class LoginComponent implements OnInit {
     const subject = this.authService.login(this.username, this.password)
     subject.subscribe({
       next: (msg) => {
-        let role: string
+        let role: string = 'USER'
+        let roles: string[] = []
+        for (let i = 0; i < JSON.parse(String(msg.body)).user.groupOfUsers.length; i++) {
+          roles.push(JSON.parse(String(msg.body)).user.groupOfUsers[i].groupName)
+        }
         this.authService.setAuthTokens(
             JSON.parse(String(msg.body)).access_token,
             JSON.parse(String(msg.body)).refresh_token
         )
-        if (JSON.parse(String(msg.body)).user.groupOfUsers.length == 3)
+        if (roles.includes('ROLE_ADMIN'))
           role = 'ADMIN'
-        else
+        else if (roles.includes('ROLE_MANAGER'))
           role = 'MANAGER'
+
         this.authService.setCurrentManager(
             JSON.parse(String(msg.body)).user.id,
             JSON.parse(String(msg.body)).user.surname,

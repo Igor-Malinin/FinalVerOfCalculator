@@ -18,7 +18,7 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import { ConsctructionNodeComponent } from './consctruction-node/consctruction-node.component';
 import { HouseframeCalcComponent } from './houseframe-calc/houseframe-calc.component';
 import { HousefoundationCalcComponent } from './housefoundation-calc/housefoundation-calc.component';
-import { HouseroofCalcComponent } from './houseroof-calc/houseroof-calc.component';
+import { ResultsComponent } from './results/results.component';
 
 @NgModule({
     declarations: [
@@ -33,7 +33,7 @@ import { HouseroofCalcComponent } from './houseroof-calc/houseroof-calc.componen
         ConsctructionNodeComponent,
         HouseframeCalcComponent,
         HousefoundationCalcComponent,
-        HouseroofCalcComponent
+        ResultsComponent
     ],
     imports: [
         BrowserModule,

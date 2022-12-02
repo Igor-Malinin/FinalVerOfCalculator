@@ -16,7 +16,8 @@ export class ClientsService {
   currentManager: CurrentManager = this.authService.getCurrentManager()
   clientpage = true
 
-  clients: Client[] = []
+  clients: Client[]
+  client: Client = new Client()
 
   constructor(private http: HttpClient,
               private authService: AuthService
@@ -64,5 +65,12 @@ export class ClientsService {
       id: this.currentManager.id
     }
     return this.http.get(API_URL + '/api/customers', {headers: headers, params: params, responseType: 'text' as 'json', observe: 'response'});
+  }
+
+  setClient(client: Client) {
+    this.client = client
+  }
+  getClient() {
+    return this.client
   }
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HouseframeCalcComponent } from './houseframe-calc.component';
+import { ResultsComponent } from './results.component';
 
-// describe('HouseframeCalcComponent', () => {
-//   let component: HouseframeCalcComponent;
-//   let fixture: ComponentFixture<HouseframeCalcComponent>;
+// describe('ResultsComponent', () => {
+//   let component: ResultsComponent;
+//   let fixture: ComponentFixture<ResultsComponent>;
 //
 //   beforeEach(async () => {
 //     await TestBed.configureTestingModule({
-//       declarations: [ HouseframeCalcComponent ]
+//       declarations: [ ResultsComponent ]
 //     })
 //     .compileComponents();
 //
-//     fixture = TestBed.createComponent(HouseframeCalcComponent);
+//     fixture = TestBed.createComponent(ResultsComponent);
 //     component = fixture.componentInstance;
 //     fixture.detectChanges();
 //   });
