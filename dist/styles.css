@@ -1,5 +1,5 @@
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].rules[0].oneOf[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].rules[0].oneOf[0].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[5].rules[1].use[0]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[5].rules[1].use[1]!./src/styles.scss ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].rules[0].oneOf[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].rules[0].oneOf[0].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[6].rules[1].use[0]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[6].rules[1].use[1]!./src/styles.scss ***!
   \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 @charset "UTF-8";
 /* montserrat-regular - latin_cyrillic */
@@ -41,11 +41,10 @@ html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
+small, strike, strong, tt, var, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
+table, caption, tbody, tfoot, thead, tr, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
@@ -456,7 +455,7 @@ select::-ms-expand {
 }
 .component__container {
   position: relative;
-  margin-top: 200px;
+  margin-top: 170px;
   margin-bottom: 30px;
 }
 .flex-centrification-container {
@@ -473,6 +472,19 @@ select::-ms-expand {
   margin: 0 auto 2rem;
   border-top: 4px solid #eeeeee;
   border-bottom: 4px solid #eeeeee;
+}
+.client__card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.client__card-header .client-info {
+  text-align: right;
+  line-height: 1.5rem;
+  padding: 8px 12px;
+  border: 2px solid #6b6b6b;
+  border-radius: 10px;
 }
 .right-side-text {
   text-align: right;
@@ -493,3 +505,5 @@ select::-ms-expand {
     max-width: 650px;
   }
 }
+
+/*# sourceMappingURL=styles.css.map*/
