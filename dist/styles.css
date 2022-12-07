@@ -456,7 +456,7 @@ select::-ms-expand {
 .component__container {
   position: relative;
   margin-top: 170px;
-  margin-bottom: 30px;
+  margin-bottom: 60px;
 }
 .flex-centrification-container {
   display: flex;
