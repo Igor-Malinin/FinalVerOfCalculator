@@ -3026,7 +3026,7 @@ class HouseframeCalcComponent {
                 setTimeout(() => {
                     this.clearCalculation();
                     this.router.navigate(['/clientspage', this.clientId]);
-                }, 400);
+                }, 300);
             }
             else {
                 const newFrameData = { ...this.formFrame.value };
@@ -3054,7 +3054,7 @@ class HouseframeCalcComponent {
                 setTimeout(() => {
                     this.clearCalculation();
                     this.router.navigate(['/clientspage', this.clientId]);
-                }, 400);
+                }, 300);
             }
         }
     }
@@ -3471,7 +3471,7 @@ function ResultsComponent_small_31_Template(rf, ctx) { if (rf & 1) {
 function ResultsComponent_div_32_div_1_Template(rf, ctx) { if (rf & 1) {
     const _r10 = _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementStart"](0, "div", 25)(1, "button", 26);
-    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵlistener"]("click", function ResultsComponent_div_32_div_1_Template_button_click_1_listener() { const restoredCtx = _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵrestoreView"](_r10); const status_r8 = restoredCtx.$implicit; const ctx_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵnextContext"](2); return _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵresetView"](ctx_r9.changeStatus(status_r8)); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵlistener"]("click", function ResultsComponent_div_32_div_1_Template_button_click_1_listener() { const restoredCtx = _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵrestoreView"](_r10); const status_r8 = restoredCtx.$implicit; const ctx_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵnextContext"](2); ctx_r9.changeStatus(status_r8); return _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵresetView"](ctx_r9.statusToggle = !ctx_r9.statusToggle); });
     _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementEnd"]()();
 } if (rf & 2) {
@@ -3781,6 +3781,7 @@ class ResultsComponent {
         calculation.status = status;
         // console.log('this.results', this.getLocalComponentResults())
         // console.log('this.getResults()', this.getResults())
+        this.cookieService.set('calculation', JSON.stringify(calculation));
         calculation = { ...calculation, ...{
                 results: this.getLocalComponentResults()
             } };
@@ -3792,7 +3793,8 @@ class ResultsComponent {
             error: (err) => {
                 console.log('error', err);
             },
-            complete: () => { }
+            complete: () => {
+            }
         });
     }
     getCalculations() {
