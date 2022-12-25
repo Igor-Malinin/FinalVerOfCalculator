@@ -2,7 +2,7 @@
     <div class="component__container">
         <h1 class="title-with-lines">Клиенты</h1>
         <button class="btn clients__btn" routerLink="/clientregistration">Создать клиента</button>
-<!--        <button class="btn clients__btn" routerLink="/clientregistration" *ngIf="authService.getCurrentManager().role == 'ADMIN'">Зарегистрировать менеджера</button>-->
+        <button class="btn clients__btn" routerLink="/userregistration" *ngIf="role == 'ADMIN'">Создать сотрудника</button>
         <div class="clients__cards">
             <div class="clients__card" *ngFor="let cl of clientsService.clients">
                 <button class="btn-clients__card" [routerLink]="['/clientspage', cl.id]">

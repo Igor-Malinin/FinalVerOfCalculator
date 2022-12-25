@@ -552,7 +552,7 @@ select::-ms-expand {
 .component__container {
   position: relative;
   margin-top: 170px;
-  margin-bottom: 30px;
+  margin-bottom: 60px;
 }
 .flex-centrification-container {
   display: flex;
@@ -569,6 +569,22 @@ select::-ms-expand {
   border-top: 4px solid $text-color-light;
   border-bottom: 4px solid $text-color-light;
 }
+
+.client__card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+
+  .client-info {
+    text-align: right;
+    line-height: 1.5rem;
+    padding: 8px 12px;
+    border: 2px solid $border-color-lightgrey;
+    border-radius: 10px;
+  }
+}
+
 .right-side-text {
   text-align: right;
   margin-bottom: 15px;

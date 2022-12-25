@@ -1,17 +1,92 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Results} from "../entity/Results";
+import {AuthService} from "./auth.service";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {AuthRequest} from "../entity/authRequest";
+
+const API_URL: string = 'http://51.250.54.62:8080'
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ResultsService {
 
-  results: Results[] = [
-    {id: 1, manager_id: 1, addressOC: 'Ленина, 32', numberN: 12, created_date: new Date('2.08.2021'), cStatus: false},
-    {id: 2, manager_id: 2, addressOC: 'somewhere on the middle', numberN: 18, created_date: new Date('4.12.2021'), cStatus: false},
-    {id: 3, manager_id: 2, addressOC: 'you will not find me', numberN: 29, created_date: new Date('06.24.2022'), cStatus: true},
-    {id: 4, manager_id: 1, addressOC: 'Московское шоссе, 34Б', numberN: 45, created_date: new Date('09.02.2022'), cStatus: true},
-  ]
+    authTokens: AuthRequest = this.authService.getAuthTokens()
 
-  constructor() { }
+    results: Array<Results>[] = []
+    editForm: any
+
+    constructor(
+        private http: HttpClient,
+        private authService: AuthService
+    ) {
+    }
+
+    addFrame(frameData: any, calculationNumber: any) {
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + this.authTokens.access_token
+        })
+        let params = {
+            'calculationNumber': calculationNumber
+        }
+        console.log(JSON.stringify(frameData))
+        return this.http.post(API_URL + '/business/addFrame', JSON.stringify(frameData), {
+            headers: headers,
+            params: params
+        })
+    }
+
+    updateFrame(frameData: any, calculationNumber: any) {
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + this.authTokens.access_token
+        })
+        let params = {
+            'calculationNumber': calculationNumber
+        }
+        console.log(JSON.stringify(frameData))
+        return this.http.patch(API_URL + '/business/updateFrame', JSON.stringify(frameData), {
+            headers: headers,
+            params: params
+        })
+    }
+
+    getResults(calculationNumber: any) {
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + this.authTokens.access_token
+        })
+        let params = {
+            'calculationNumber': calculationNumber
+        }
+        return this.http.get(API_URL + '/business/getResults', {headers: headers, params: params, responseType: 'text' as 'json', observe: 'response'});
+    }
+
+    setResults(results: Results[]) {
+        this.results.push(results)
+    }
+
+    setEditForm(editForm: any) {
+        this.editForm = editForm
+    }
+
+    getEditForm() {
+        return this.editForm
+    }
+
+    getResultsArray() {
+        return this.results
+    }
+
+    getFloorNumber() {
+        if (this.results != []) {
+            return this.results.length
+        }
+        return 1
+    }
+
+    clearResults() {
+        this.results = []
+    }
 }

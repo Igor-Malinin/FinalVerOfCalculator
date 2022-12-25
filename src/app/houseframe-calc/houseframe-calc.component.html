@@ -1,6 +1,36 @@
 <div class="wrapper">
     <div class="component__container">
-        <button class="btn" [routerLink]="['/clientspage', clientId, 'construction']">назад</button>
+        <div class="client__card-header">
+            <button class="btn" type="button" [routerLink]="['/clientspage', clientId, 'construction']" (click)="setEditFlag()">Назад</button>
+            <button class="btn" type="button" [routerLink]="['/clientspage', clientId]" (click)="setEditFlag()">На страницу клиента</button>
+<!--            <button class="btn" type="button" (click)="showAF()">показать</button>-->
+            <div class="client-info">
+                <p>{{getClient().surname}} {{getClient().name}} {{getClient().patronymic}}</p>
+                <p>{{getTel() | cellphone}}</p>
+                <p>{{getClient().address}}</p>
+                <p>{{getClient().email}}</p>
+            </div>
+        </div>
+        <div class="calculator-container">
+            <div class="calculator-box">
+                <button class="btn" (click)="calculatorToggle = !calculatorToggle" [ngClass]="{'btn-calculator': calculatorToggle}">
+                    <small *ngIf="!calculatorToggle">Калькулятор</small>
+                    <small *ngIf="calculatorToggle">Закрыть</small>
+                </button>
+                <div class="calculator" *ngIf="calculatorToggle">
+                    <input type="text" class="frame__input-calc" placeholder="Введите число" [(ngModel)]="a">
+                    <input type="text" class="frame__input-calc" placeholder="Введите число" [(ngModel)]="b">
+                    <div class="calculator-btns">
+                        <button class="btn" (click)="calculate('+')">+</button>
+                        <button class="btn" (click)="calculate('-')">&minus;</button>
+                        <button class="btn" (click)="calculate('*')">&times;</button>
+                        <button class="btn" (click)="calculate('/')">&divide;</button>
+                    </div>
+                    <input type="text" class="frame__input-calc" placeholder="Результат" [(ngModel)]="c">
+                </div>
+            </div>
+        </div>
+
         <h1 class="title-with-lines">Каркас</h1>
         <form class="frame__form" [formGroup]="formFrame" (ngSubmit)="submit()">
             <h1 class="form__inner-title" style="font-size: 20px">Исходные данные</h1>
@@ -9,31 +39,29 @@
                     <div class="with-clear-btn">
                         <div class="label-item__flex" style="justify-content: flex-start; gap: 10px; margin-bottom: 0;">
                             <label for="fFloorsNumber" class="form__label" style="margin-right: 30px">Количество этажей</label>
-                            <button class="btn" type="button" [disabled]="amount_floor.value <= 1" (click)="decAmountFloor()">-</button>
-                            <input type="text" id="fFloorsNumber" class="frame__input" formControlName="amount_floor" (focusout)="addFloor()" style="width: 50px" [value]="amount_floor.value">
-                            <button class="btn" type="button" [disabled]="amount_floor.value >= 20" (click)="incAmountFloor()">+</button>
+                            <button class="btn" type="button" [disabled]="numberOfFloors.value <= 1" (click)="decAmountFloor()">-</button>
+                            <input type="text" id="fFloorsNumber" class="frame__input" formControlName="numberOfFloors" (focusout)="addFloor()" style="width: 50px" [value]="numberOfFloors.value">
+                            <button class="btn" type="button" [disabled]="numberOfFloors.value >= 20" (click)="incAmountFloor()">+</button>
                         </div>
                         <button class="btn" type="button" (click)="clearCalculation()" style="">Очистить расчет</button>
                     </div>
                     <div
-                        *ngIf="formFrame.get('amount_floor')?.invalid && formFrame.get('amount_floor')?.touched"
+                        *ngIf="formFrame.get('numberOfFloors')?.invalid && formFrame.get('numberOfFloors')?.touched"
                         class="validation"
                     >
-                        <small *ngIf="formFrame.get('amount_floor')?.errors?.['required']">Поле не может быть пустым</small>
-                        <small *ngIf="formFrame.get('amount_floor').errors?.['min']">
-                            Введите не менее {{formFrame.get('amount_floor')?.errors?.['min'].min}} этажа.
-                            Вы ввели {{formFrame.get('amount_floor')?.errors?.['min'].actual}}.
+                        <small *ngIf="formFrame.get('numberOfFloors')?.errors?.['required']">Поле не может быть пустым</small>
+                        <small *ngIf="formFrame.get('numberOfFloors').errors?.['min']">
+                            Введите не менее {{formFrame.get('numberOfFloors')?.errors?.['min'].min}} этажа.
                         </small>
-                        <small *ngIf="formFrame.get('amount_floor')?.errors?.['max']">
-                            Введите не более {{formFrame.get('amount_floor')?.errors?.['max'].max}} этажей.
-                            Вы ввели {{formFrame.get('amount_floor')?.errors?.['max'].actual}}.
+                        <small *ngIf="formFrame.get('numberOfFloors')?.errors?.['max']">
+                            Введите не более {{formFrame.get('numberOfFloors')?.errors?.['max'].max}} этажей.
                         </small>
                     </div>
                 </div>
             </div>
 
-            <div class="flex-floors" formArrayName="floor_number">
-                <div class="floor-box" *ngFor="let floor of floor_number.controls; let i = index">
+            <div class="flex-floors" formArrayName="floorNumber">
+                <div class="floor-box" *ngFor="let floor of floorNumber.controls; let i = index">
                     <h1 class="form__inner-title">
                         Этаж {{i + 1}}
                         <button class="btn" type="button" (click)="hidden[i] = !hidden[i]" style="margin-left: 30px">
@@ -48,70 +76,96 @@
                                 <div class="main-items">
                                     <div class="label-item__flex">
                                         <label for="ffloor_height" class="form__label">Высота этажа</label>
-                                        <input type="text" id="ffloor_height" class="frame__input" formControlName="floor_height">
+                                        <input type="text" id="ffloor_height" class="frame__input" formControlName="floorHeight">
 
                                     </div>
                                     <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['floor_height']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['floor_height']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['floorHeight']?.invalid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['floorHeight']?.touched"
                                             class="validation right-side-text"
                                     >
-                                        <small>Поле не может быть пустым</small>
+                                        <small *ngIf="formFrame.controls['floorNumber'].controls[i].controls['floorHeight']?.errors?.['required']">Поле не может быть пустым</small>
+                                        <small *ngIf="formFrame.controls['floorNumber'].controls[i].controls['floorHeight']?.errors?.['max']">
+                                            Введите высоту не более {{formFrame.controls['floorNumber'].controls[i].controls['floorHeight']?.errors?.['max'].max}} м.
+                                        </small>
                                     </div>
                                     <div class="label-item__flex">
                                         <label for="fperimeter_of_external_walls" class="form__label">Периметр внешних стен</label>
-                                        <input type="text" id="fperimeter_of_external_walls" class="frame__input" formControlName="perimeter_of_external_walls">
+                                        <input type="text" id="fperimeter_of_external_walls" class="frame__input" formControlName="outerWallPerimeter">
                                     </div>
                                     <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['perimeter_of_external_walls']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['perimeter_of_external_walls']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['outerWallPerimeter']?.invalid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['outerWallPerimeter']?.touched"
                                             class="validation right-side-text"
                                     >
                                         <small>Поле не может быть пустым</small>
                                     </div>
                                     <div class="label-item__flex">
-                                        <label for="fbase_area" class="form__label">Площадь основания</label>
-                                        <input type="text" id="fbase_area" class="frame__input" formControlName="base_area">
+                                        <label for="fbaseArea" class="form__label">Площадь основания</label>
+                                        <input type="text" id="fbaseArea" class="frame__input" formControlName="baseArea">
                                     </div>
                                     <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['base_area']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['base_area']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['baseArea']?.invalid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['baseArea']?.touched"
                                             class="validation right-side-text"
                                     >
                                         <small>Поле не может быть пустым</small>
                                     </div>
                                     <div class="label-item__flex">
-                                        <label for="external_wall_thickness" class="form__label">Толщина внешних стен</label>
-                                        <input type="text" id="external_wall_thickness" class="frame__input" formControlName="external_wall_thickness">
+                                        <label class="form__label">Толщина внешних стен</label>
+                                        <div class="label-with-btn">
+                                            <select class="select-options" formControlName="externalWallThickness" *ngIf="formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.valid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.touched">
+                                                <option class="option" value=""> Выбрать </option>
+                                                <option class="option" [value]="thickVal" *ngFor="let thickVal of getThicknessArray(formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall'].value)">{{thickVal}}</option>
+                                            </select>
+                                            <select class="select-options" formControlName="externalWallThickness" *ngIf="!formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.valid
+                                            || !formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.touched">
+                                                <option class="option" value=""> Выбрать </option>
+                                                <option class="option" [value]="thickVal" *ngFor="let thickVal of getThicknessArray('all')">{{thickVal}}</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['external_wall_thickness']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['external_wall_thickness']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['externalWallThickness']?.invalid
+                                                    && formFrame.controls['floorNumber'].controls[i].controls['externalWallThickness']?.touched"
                                             class="validation right-side-text"
                                     >
-                                        <small>Поле не может быть пустым</small>
+                                        <small>Выберите толщину</small>
                                     </div>
                                     <div class="label-item__flex">
-                                        <label for="finternal_wall_length" class="form__label">Длина внутренних стен</label>
-                                        <input type="text" id="finternal_wall_length" class="frame__input" formControlName="internal_wall_length">
+                                        <label for="finternalWallLength" class="form__label">Длина внутренних стен</label>
+                                        <input type="text" id="finternalWallLength" class="frame__input" formControlName="internalWallLength">
                                     </div>
                                     <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['internal_wall_length']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['internal_wall_length']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['internalWallLength']?.invalid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['internalWallLength']?.touched"
                                             class="validation right-side-text"
                                     >
                                         <small>Поле не может быть пустым</small>
                                     </div>
+
                                     <div class="label-item__flex">
-                                        <label for="finternal_wall_thickness" class="form__label">Толщина внутренних стен</label>
-                                        <input type="text" id="finternal_wall_thickness" class="frame__input" formControlName="internal_wall_thickness">
+                                        <label class="form__label">Толщина внутренних стен</label>
+                                        <div class="label-with-btn">
+                                            <select class="select-options" formControlName="internalWallThickness" *ngIf="formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.valid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.touched">
+                                                <option class="option" value=""> Выбрать </option>
+                                                <option class="option" [value]="thickVal" *ngFor="let thickVal of getThicknessArray(formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall'].value)">{{thickVal}}</option>
+                                            </select>
+                                            <select class="select-options" formControlName="internalWallThickness" *ngIf="!formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.valid
+                                            || !formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.touched">
+                                                <option class="option" value=""> Выбрать </option>
+                                                <option class="option" [value]="thickVal" *ngFor="let thickVal of getThicknessArray('all')">{{thickVal}}</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['internal_wall_thickness']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['internal_wall_thickness']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['internalWallThickness']?.invalid
+                                                    && formFrame.controls['floorNumber'].controls[i].controls['internalWallThickness']?.touched"
                                             class="validation right-side-text"
                                     >
-                                        <small>Поле не может быть пустым</small>
+                                        <small>Выберите толщину</small>
                                     </div>
                                 </div>
 
@@ -119,68 +173,61 @@
                                     <h1 class="form__floor-title">Обшивки внешних стен</h1>
                                     <div class="label-item__flex">
                                         <label class="form__label">ОСБ снаружи</label>
-                                        <select class="select-options" formControlName="OSB_external_wall">
+                                        <select class="select-options" formControlName="osbexternalWall">
                                             <option class="option" value=""> Выбрать </option>
-                                            <option class="option" value="OSB 9mm">ОСБ 9мм</option>
-                                            <option class="option" value="OSB 10mm">ОСБ 10мм</option>
-                                            <option class="option" value="OSB 15mm">ОСБ 15мм</option>
-                                            <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                            <option class="option" value="{{OSB.name}}" *ngFor="let OSB of getOSB()">{{OSB.name}}</option>
                                         </select>
                                     </div>
                                     <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['OSB_external_wall']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['OSB_external_wall']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['osbexternalWall']?.invalid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['osbexternalWall']?.touched"
                                             class="validation right-side-text"
                                     >
                                         <small>Выберите ОСБ</small>
                                     </div>
                                     <div class="label-item__flex">
                                         <label class="form__label">Парогидроизоляция</label>
-                                        <select class="select-options" formControlName="steam_waterproofing_external_wall">
+                                        <select class="select-options" formControlName="steamWaterproofingExternalWall">
                                             <option class="option" value=""> Выбрать </option>
-                                            <option class="option" value="OSB 9mm">ОСБ 9мм</option>
-                                            <option class="option" value="OSB 10mm">ОСБ 10мм</option>
-                                            <option class="option" value="OSB 15mm">ОСБ 15мм</option>
-                                            <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                            <option class="option" value="{{steamWaterproof.name}}" *ngFor="let steamWaterproof of getSteamWaterproofing()">{{steamWaterproof.name}}</option>
                                         </select>
                                     </div>
                                     <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['steam_waterproofing_external_wall']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['steam_waterproofing_external_wall']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['steamWaterproofingExternalWall']?.invalid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['steamWaterproofingExternalWall']?.touched"
                                             class="validation right-side-text"
                                     >
                                         <small>Выберите Парогидроизоляцию</small>
                                     </div>
                                     <div class="label-item__flex">
                                         <label class="form__label">Ветрозащита</label>
-                                        <select class="select-options" formControlName="windscreen_external_wall">
+                                        <select class="select-options" formControlName="windscreenExternalWall">
                                             <option class="option" value=""> Выбрать </option>
-                                            <option class="option" value="OSB 9mm">ОСБ 9мм</option>
-                                            <option class="option" value="OSB 10mm">ОСБ 10мм</option>
-                                            <option class="option" value="OSB 15mm">ОСБ 15мм</option>
-                                            <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                            <option class="option" value="{{windscreen.name}}" *ngFor="let windscreen of getWindscreen()">{{windscreen.name}}</option>
                                         </select>
                                     </div>
                                     <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['windscreen_external_wall']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['windscreen_external_wall']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['windscreenExternalWall']?.invalid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['windscreenExternalWall']?.touched"
                                             class="validation right-side-text"
                                     >
                                         <small>Выберите ветрозащиту</small>
                                     </div>
                                     <div class="label-item__flex">
                                         <label class="form__label">Утеплитель</label>
-                                        <select class="select-options" formControlName="insulation_external_wall">
+                                        <select class="select-options" formControlName="insulationExternalWall" *ngIf="formFrame.controls['floorNumber'].controls[i].controls['externalWallThickness']?.valid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['externalWallThickness']?.touched">
                                             <option class="option" value=""> Выбрать </option>
-                                            <option class="option" value="OSB 9mm">ОСБ 9мм</option>
-                                            <option class="option" value="OSB 10mm">ОСБ 10мм</option>
-                                            <option class="option" value="OSB 15mm">ОСБ 15мм</option>
-                                            <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                            <option class="option" value="{{insulation.name}}" *ngFor="let insulation of getInsulation(formFrame.controls['floorNumber'].controls[i].controls['externalWallThickness'].value)">{{insulation.name}}</option>
+                                        </select>
+                                        <select class="select-options" formControlName="insulationExternalWall" *ngIf="!formFrame.controls['floorNumber'].controls[i].controls['externalWallThickness']?.valid || !formFrame.controls['floorNumber'].controls[i].controls['externalWallThickness']?.touched">
+                                            <option class="option" value=""> Выбрать </option>
+                                            <option class="option" value="{{insulation.name}}" *ngFor="let insulation of getInsulation('all')">{{insulation.name}}</option>
                                         </select>
                                     </div>
                                     <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['insulation_external_wall']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['insulation_external_wall']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.invalid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.touched"
                                             class="validation right-side-text"
                                     >
                                         <small>Выберите утеплитель</small>
@@ -200,98 +247,19 @@
                                     }">расчет обшивки внутренних стен</h1>
                                     <div class="label-item__flex" *ngIf="considerInnerWallsCalc[i]" style="margin-top: 15px; margin-bottom: 0">
                                         <label class="form__label">ОСБ внутри</label>
-                                        <select class="select-options" formControlName="OSB_internal_wall">
+                                        <select class="select-options" formControlName="osbinternalWall" [ngClass]="{'ng-valid': !considerInnerWallsCalc[i]}">
                                             <option class="option" value=""> Выбрать </option>
-                                            <option class="option" value="OSB 9mm">ОСБ 9мм</option>
-                                            <option class="option" value="OSB 10mm">ОСБ 10мм</option>
-                                            <option class="option" value="OSB 15mm">ОСБ 15мм</option>
-                                            <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                            <option class="option" value="{{OSB.name}}" *ngFor="let OSB of getOSB()">{{OSB.name}}</option>
                                         </select>
                                     </div>
                                     <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['OSB_internal_wall']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['OSB_internal_wall']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['osbinternalWall']?.invalid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['osbinternalWall']?.touched"
                                             class="validation right-side-text"
                                     >
                                         <small>Выберите ОСБ</small>
                                     </div>
                                 </div>
-
-<!--                                <div class="main-items" formGroupName="openings" style="margin-bottom: 20px">-->
-<!--                                    <button class="btn btn-consider" type="button" (click)="considerOpenings[i] = !considerOpenings[i]">-->
-<!--                                        <small *ngIf="!considerOpenings[i]; else notCons">Учесть</small>-->
-<!--                                        <ng-template #notCons>Не учитывать</ng-template>-->
-<!--                                    </button>-->
-<!--                                    <h1 class="form__label" [ngClass]="{-->
-<!--                                        consider: considerOpenings[i] === true,-->
-<!--                                        'not-consider': considerOpenings[i] === false-->
-<!--                                    }" style="margin-bottom: 20px">двери и окна</h1>-->
-<!--                                    <div class="openings-flex" *ngIf="considerOpenings[i]">-->
-<!--                                        <div class="windows" formArrayName="windowsParams">-->
-<!--                                            <div class="label-with-btn">-->
-<!--                                                <label class="form__label" style="margin-right: 30px">Оконные проемы</label>-->
-<!--                                                <button class="btn" type="button" (click)="addWindows(i)">+</button>-->
-<!--                                                <button class="btn" type="button" [disabled]="windowsParams(i).length <= 1" (click)="deleteWindows(i)" style="margin-left: 15px; width: 40px">-</button>-->
-<!--                                            </div>-->
-<!--                                            <div class="openings-for-container" *ngFor="let windows of windowsParams(i).controls; let j = index" [formGroupName]="j">-->
-<!--                                                <div class="openings-inputs-flex">-->
-<!--                                                    <input type="text" class="frame__input" placeholder="Высота" formControlName="height">-->
-<!--                                                    <input type="text" class="frame__input" placeholder="Ширина" formControlName="width">-->
-<!--                                                    <input type="text" class="frame__input" placeholder="Количество" formControlName="amount">-->
-<!--                                                </div>-->
-<!--                                                <div-->
-<!--                                                        *ngIf="this.formFrame.controls['floor_number'].controls[i].controls['openings'].controls['windowsParams'].controls[j]?.invalid-->
-<!--                                                        && this.formFrame.controls['floor_number'].controls[i].controls['openings'].controls['windowsParams'].controls[j]?.touched"-->
-<!--                                                        class="validation right-side-text"-->
-<!--                                                >-->
-<!--                                                    <small>Укажите все параметры</small>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="external-doors-params" formArrayName="externalDoorsParams">-->
-<!--                                            <div class="label-with-btn">-->
-<!--                                                <label class="form__label" style="margin-right: 30px">Дверные проемы внешние</label>-->
-<!--                                                <button class="btn" type="button" (click)="addExternalDoors(i)">+</button>-->
-<!--                                                <button class="btn" type="button" [disabled]="externalDoorsParams(i).length <= 1" (click)="deleteExternalDoors(i)" style="margin-left: 15px; width: 40px">-</button>-->
-<!--                                            </div>-->
-<!--                                            <div class="openings-for-container" *ngFor="let externalDoors of externalDoorsParams(i).controls; let j = index" [formGroupName]="j">-->
-<!--                                                <div class="openings-inputs-flex">-->
-<!--                                                    <input type="text" class="frame__input" placeholder="Высота" formControlName="height">-->
-<!--                                                    <input type="text" class="frame__input" placeholder="Ширина" formControlName="width">-->
-<!--                                                    <input type="text" class="frame__input" placeholder="Количество" formControlName="amount">-->
-<!--                                                </div>-->
-<!--                                                <div-->
-<!--                                                        *ngIf="this.formFrame.controls['floor_number'].controls[i].controls['openings'].controls['externalDoorsParams'].controls[j]?.invalid-->
-<!--                                                        && this.formFrame.controls['floor_number'].controls[i].controls['openings'].controls['externalDoorsParams'].controls[j]?.touched"-->
-<!--                                                        class="validation right-side-text"-->
-<!--                                                >-->
-<!--                                                    <small>Укажите все параметры</small>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="inner-doors-params" formArrayName="internalDoorsParams">-->
-<!--                                            <div class="label-with-btn">-->
-<!--                                                <label class="form__label" style="margin-right: 30px">Дверные проемы внутренние</label>-->
-<!--                                                <button class="btn" type="button" (click)="addInnerDoors(i)">+</button>-->
-<!--                                                <button class="btn" type="button" [disabled]="internalDoorsParams(i).length <= 1" (click)="deleteInnerDoors(i)" style="margin-left: 15px; width: 40px">-</button>-->
-<!--                                            </div>-->
-<!--                                            <div class="openings-for-container" *ngFor="let innerDoors of internalDoorsParams(i).controls; let j = index" [formGroupName]="j">-->
-<!--                                                <div class="openings-inputs-flex">-->
-<!--                                                    <input type="text" class="frame__input" placeholder="Высота" formControlName="height">-->
-<!--                                                    <input type="text" class="frame__input" placeholder="Ширина" formControlName="width">-->
-<!--                                                    <input type="text" class="frame__input" placeholder="Количество" formControlName="amount">-->
-<!--                                                </div>-->
-<!--                                                <div-->
-<!--                                                        *ngIf="this.formFrame.controls['floor_number'].controls[i].controls['openings'].controls['internalDoorsParams'].controls[j]?.invalid-->
-<!--                                                        && this.formFrame.controls['floor_number'].controls[i].controls['openings'].controls['internalDoorsParams'].controls[j]?.touched"-->
-<!--                                                        class="validation right-side-text"-->
-<!--                                                >-->
-<!--                                                    <small>Укажите все параметры</small>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
 
                                 <div class="main-items" formArrayName="apertures">
                                     <button class="btn btn-consider" type="button" *ngIf="!considerOpenings[i]; else notCons2" (click)="considerOpenings[i] = !considerOpenings[i]">Учесть</button>
@@ -309,7 +277,7 @@
                                                 <div class="apertures-group" formGroupName="aperture">
                                                     <div class="label-item__flex">
                                                         <div class="label-with-btn">
-                                                            <select class="select-options" formControlName="type" style="margin-right: 20px; width: 320px;">
+                                                            <select class="select-options" formControlName="type" style="margin-right: 20px; width: 300px;">
                                                                 <option class="option" value=""> Тип проема </option>
                                                                 <option class="option" value="Оконные проемы">Оконные проемы</option>
                                                                 <option class="option" value="Дверные проемы внешние">Дверные проемы внешние</option>
@@ -319,25 +287,36 @@
                                                         </div>
                                                     </div>
                                                     <div
-                                                        *ngIf="formFrame.controls['floor_number'].controls[i].controls['apertures'].controls[j].controls['aperture'].controls['type']?.invalid
-                                                        && formFrame.controls['floor_number'].controls[i].controls['apertures'].controls[j].controls['aperture'].controls['type']?.touched"
+                                                        *ngIf="formFrame.controls['floorNumber'].controls[i].controls['apertures'].controls[j].controls['aperture'].controls['type']?.invalid
+                                                        && formFrame.controls['floorNumber'].controls[i].controls['apertures'].controls[j].controls['aperture'].controls['type']?.touched"
                                                         class="validation right-side-text"
                                                     >
                                                         <small>Выберите тип проемов</small>
                                                     </div>
                                                     <div class="openings-inputs-flex">
                                                         <input type="text" class="frame__input" placeholder="Высота" formControlName="height">
-                                                        <input type="text" class="frame__input" placeholder="Ширина" formControlName="width">
+                                                        <input type="text" class="frame__input" placeholder="Ширина" formControlName="weight">
                                                     </div>
                                                 </div>
-                                                <input type="text" class="frame__input" placeholder="Количество" formControlName="amount">
+                                                <input type="text" class="frame__input" placeholder="Количество" formControlName="amount" >
                                             </div>
                                             <div
-                                                    *ngIf="this.formFrame.controls['floor_number'].controls[i].controls['apertures'].controls[j]?.invalid
-                                                    && this.formFrame.controls['floor_number'].controls[i].controls['apertures'].controls[j]?.touched"
-                                                    class="validation right-side-text"
+                                                    *ngIf="formFrame.controls['floorNumber'].controls[i].controls['apertures'].controls[j]?.invalid
+                                                    && formFrame.controls['floorNumber'].controls[i].controls['apertures'].controls[j]?.touched || formFrame.controls['floorNumber'].controls[i].controls['apertures'].controls[j].controls['aperture'].controls['height']?.invalid
+                                                        && formFrame.controls['floorNumber'].controls[i].controls['apertures'].controls[j].controls['aperture'].controls['height']?.touched
+                                                        || formFrame.controls['floorNumber'].controls[i].controls['apertures'].controls[j].controls['aperture'].controls['weight']?.invalid
+                                                        && formFrame.controls['floorNumber'].controls[i].controls['apertures'].controls[j].controls['aperture'].controls['weight']?.touched"
+                                                    class="validation right-side-text overlap-validators-flex"
                                             >
-                                                <small>Укажите все параметры</small>
+                                                <small>
+                                                    Укажите все параметры
+                                                </small>
+                                                <small *ngIf="formFrame.controls['floorNumber'].controls[i].controls['apertures'].controls[j].controls['aperture'].controls['height']?.errors?.['mismatchHeight']">
+                                                    Значение высоты больше чем высота этажа
+                                                </small>
+                                                <small *ngIf="formFrame.controls['floorNumber'].controls[i].controls['apertures'].controls[j].controls['aperture'].controls['weight']?.errors?.['mismatchWidth']">
+                                                    Значение ширины больше чем ширина стен
+                                                </small>
                                             </div>
                                         </div>
                                     </div>
@@ -355,29 +334,37 @@
                                     <div class="overlaps-container" *ngIf="considerOverlaps[i]">
                                         <div class="label-item__flex">
                                             <label class="form__label">Толщина перекрытия</label>
-                                            <input type="text" class="frame__input" formControlName="overlap_thickness">
+                                            <div class="label-with-btn">
+                                                <select class="select-options" formControlName="overlapThickness" *ngIf="formFrame.controls['floorNumber'].controls[i].controls['insulationThickness']?.valid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['insulationThickness']?.touched">
+                                                    <option class="option" value="0"> Выбрать </option>
+                                                    <option class="option" [value]="thickVal" *ngFor="let thickVal of getThicknessArray(formFrame.controls['floorNumber'].controls[i].controls['insulationThickness'].value)">{{thickVal}}</option>
+                                                </select>
+                                                <select class="select-options" formControlName="overlapThickness" *ngIf="!formFrame.controls['floorNumber'].controls[i].controls['insulationThickness']?.valid
+                                            || !formFrame.controls['floorNumber'].controls[i].controls['insulationThickness']?.touched">
+                                                    <option class="option" value="0"> Выбрать </option>
+                                                    <option class="option" [value]="thickVal" *ngFor="let thickVal of getThicknessArray('all')">{{thickVal}}</option>
+                                                </select>
+                                            </div>
                                         </div>
                                         <div
-                                                *ngIf="formFrame.controls['floor_number'].controls[i].controls['overlap_thickness']?.invalid
-                                                && formFrame.controls['floor_number'].controls[i].controls['overlap_thickness']?.touched"
+                                                *ngIf="formFrame.controls['floorNumber'].controls[i].controls['overlapThickness']?.invalid
+                                                    && formFrame.controls['floorNumber'].controls[i].controls['overlapThickness']?.touched"
                                                 class="validation right-side-text"
                                         >
-                                            <small>Введите толщину перекрытия</small>
+                                            <small>Выберите толщину</small>
                                         </div>
 
                                         <div class="label-item__flex">
-                                            <label for="OSB_thickness" class="form__label">ОСБ перекрытия</label>
-                                            <select class="select-options" id="OSB_thickness" formControlName="OSB_thickness">
+                                            <label for="osbthickness" class="form__label">ОСБ перекрытия</label>
+                                            <select class="select-options" id="osbthickness" formControlName="osbthickness" >
                                                 <option class="option" value=""> Выбрать </option>
-                                                <option class="option" value="OSB 9mm">ОСБ 9мм</option>
-                                                <option class="option" value="OSB 10mm">ОСБ 10мм</option>
-                                                <option class="option" value="OSB 15mm">ОСБ 15мм</option>
-                                                <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                                <option class="option" value="{{OSB.name}}" *ngFor="let OSB of getOSB()">{{OSB.name}}</option>
                                             </select>
                                         </div>
                                         <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['OSB_thickness']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['OSB_thickness']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['osbthickness']?.invalid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['osbthickness']?.touched"
                                             class="validation right-side-text"
                                         >
                                             <small>Выберите ОСБ</small>
@@ -385,17 +372,14 @@
 
                                         <div class="label-item__flex">
                                             <label class="form__label">Парогидроизоляция</label>
-                                            <select class="select-options"  formControlName="steam_waterproofing_thickness">
+                                            <select class="select-options"  formControlName="steamWaterproofingThickness" >
                                                 <option class="option" value=""> Выбрать </option>
-                                                <option class="option" value="OSB 9mm">ОСБ 9мм</option>
-                                                <option class="option" value="OSB 10mm">ОСБ 10мм</option>
-                                                <option class="option" value="OSB 15mm">ОСБ 15мм</option>
-                                                <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                                <option class="option" value="{{steamWater.name}}" *ngFor="let steamWater of getSteamWaterproofing()">{{steamWater.name}}</option>
                                             </select>
                                         </div>
                                         <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['steam_waterproofing_thickness']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['steam_waterproofing_thickness']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['steamWaterproofingThickness']?.invalid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['steamWaterproofingThickness']?.touched"
                                             class="validation right-side-text"
                                         >
                                             <small>Выберите парогидроизоляцию</small>
@@ -403,17 +387,14 @@
 
                                         <div class="label-item__flex">
                                             <label class="form__label">Ветрозащита</label>
-                                            <select class="select-options"  formControlName="windscreen_thickness">
+                                            <select class="select-options"  formControlName="windscreenProtectionThickness" >
                                                 <option class="option" value=""> Выбрать </option>
-                                                <option class="option" value="OSB 9mm">ОСБ 9мм</option>
-                                                <option class="option" value="OSB 10mm">ОСБ 10мм</option>
-                                                <option class="option" value="OSB 15mm">ОСБ 15мм</option>
-                                                <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                                <option class="option" value="{{windscreen.name}}" *ngFor="let windscreen of getWindscreen()">{{windscreen.name}}</option>
                                             </select>
                                         </div>
                                         <div
-                                            *ngIf="formFrame.controls['floor_number'].controls[i].controls['windscreen_thickness']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['windscreen_thickness']?.touched"
+                                            *ngIf="formFrame.controls['floorNumber'].controls[i].controls['windscreenProtectionThickness']?.invalid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['windscreenProtectionThickness']?.touched"
                                             class="validation right-side-text"
                                         >
                                             <small>Выберите ветрозащиту</small>
@@ -421,17 +402,20 @@
 
                                         <div class="label-item__flex">
                                             <label class="form__label">Утеплитель</label>
-                                            <select class="select-options"  formControlName="insulation_thickness">
+                                            <select class="select-options" formControlName="insulationThickness" *ngIf="formFrame.controls['floorNumber'].controls[i].controls['overlapThickness']?.valid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['overlapThickness']?.touched">
                                                 <option class="option" value=""> Выбрать </option>
-                                                <option class="option" value="OSB 9mm">ОСБ 9мм</option>
-                                                <option class="option" value="OSB 10mm">ОСБ 10мм</option>
-                                                <option class="option" value="OSB 15mm">ОСБ 15мм</option>
-                                                <option class="option" value="OSB 18mm">ОСБ 18мм</option>
+                                                <option class="option" value="{{insulation.name}}" *ngFor="let insulation of getInsulation(formFrame.controls['floorNumber'].controls[i].controls['overlapThickness'].value)">{{insulation.name}}</option>
+                                            </select>
+                                            <select class="select-options" formControlName="insulationThickness" *ngIf="!formFrame.controls['floorNumber'].controls[i].controls['overlapThickness']?.valid
+                                            || !formFrame.controls['floorNumber'].controls[i].controls['overlapThickness']?.touched">
+                                                <option class="option" value=""> Выбрать </option>
+                                                <option class="option" value="{{insulation.name}}" *ngFor="let insulation of getInsulation('all')">{{insulation.name}}</option>
                                             </select>
                                         </div>
                                         <div
-                                                *ngIf="formFrame.controls['floor_number'].controls[i].controls['insulation_thickness']?.invalid
-                                            && formFrame.controls['floor_number'].controls[i].controls['insulation_thickness']?.touched"
+                                                *ngIf="formFrame.controls['floorNumber'].controls[i].controls['insulationThickness']?.invalid
+                                            && formFrame.controls['floorNumber'].controls[i].controls['insulationThickness']?.touched"
                                                 class="validation right-side-text"
                                         >
                                             <small>Выберите утеплитель</small>
@@ -449,7 +433,8 @@
             </div>
 
 <!--            <button class="btn btn-app-wwd" type="submit" [disabled]="form.invalid || form.pending">Отправить</button>-->
-            <button class="btn btn-calculate" type="submit" >Рассчитать</button>
+            <button class="btn btn-calculate" [disabled]="formFrame.invalid" type="submit" >Рассчитать</button>
+<!--            [routerLink]="['/clientspage', clientId]"-->
         </form>
     </div>
 </div>

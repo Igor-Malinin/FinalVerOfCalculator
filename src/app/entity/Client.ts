@@ -7,4 +7,5 @@ export class Client {
     email: string
     address: string
     user: object
+    calculations: Array<object>
 }

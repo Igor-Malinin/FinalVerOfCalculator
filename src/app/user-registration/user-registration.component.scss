@@ -1,0 +1,44 @@
+@use "src/styles";
+
+.reg__form {
+  text-align: center;
+}
+.btn-go-back {
+  margin-bottom: 30px;
+  margin-left: 2px;
+}
+.reg__title {
+  display: inline-block;
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px 0;
+  margin: 0 auto 40px;
+  border-top: 4px solid styles.$text-color-light;
+  border-bottom: 4px solid styles.$text-color-light;
+}
+.reg__form-control {
+  margin-bottom: 20px;
+}
+.reg__input {
+  width: 100%;
+  font-size: 18px;
+  padding: 10px;
+  color: styles.$text-color-light;
+  background-color: styles.$back-color-dark;
+  border: 2px solid styles.$border-color-lightgrey;
+  border-radius: 10px;
+  &.ng-invalid.ng-touched {
+    border: 2px solid styles.$danger-color;
+  }
+  &.ng-valid.ng-touched {
+    border: 2px solid styles.$valid-color;
+  }
+}
+.validation {
+  margin-top: 10px;
+  color: styles.$danger-color;
+}
+.reg__btn {
+  margin-bottom: 20px;
+}

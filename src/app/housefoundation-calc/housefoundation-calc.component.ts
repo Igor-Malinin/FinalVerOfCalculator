@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CookieService} from "ngx-cookie-service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {FormBuilder, Validators} from "@angular/forms";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-housefoundation-calc',
@@ -15,7 +16,8 @@ export class HousefoundationCalcComponent implements OnInit {
 
   constructor(
       private route: ActivatedRoute,
-      private fb: FormBuilder
+      private fb: FormBuilder,
+      private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -24,6 +26,9 @@ export class HousefoundationCalcComponent implements OnInit {
         this.clientId = +params['id']
       },
       error: (err) => {
+        if (err.status == 403) {
+          this.authService.refreshToken()
+        }
         console.log('error: ', err)
       }
     })

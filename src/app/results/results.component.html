@@ -1,7 +1,9 @@
 <div class="wrapper">
     <div class="component__container">
         <div class="client__card-header">
-            <button class="btn" [routerLink]="['/clientspage', clientId]">назад</button>
+            <button class="btn" [routerLink]="['/clientspage', clientId]">Назад</button>
+<!--            <button class="btn" type="button" (click)="getR()">get</button>-->
+<!--            <button class="btn" type="button" (click)="getNumberOfFloors()">get2</button>-->
             <div class="client-info">
                 <p>{{getClient().surname}} {{getClient().name}} {{getClient().patronymic}}</p>
                 <p>{{getTel() | cellphone}}</p>
@@ -9,92 +11,125 @@
                 <p>{{getClient().email}}</p>
             </div>
         </div>
-        <h1 class="title-with-lines">Результаты расчета №{{results?.numberN}}</h1>
+        <h1 class="title-with-lines">Результаты расчета №{{resultsPNum}}</h1>
         <div class="results__box">
-            <p style="margin-bottom: 10px">
-                <b>Дата: {{results?.created_date | date:'dd.MM.yyyy'}}</b>
-            </p>
-            <p>
-                <b>Адрес объекта: {{results?.addressOC}}</b>
-            </p>
+            <div class="control-elements__field">
+                <div class="results__box-header">
+                    <div class="info-text">
+                        <p>
+                            <b>Дата: {{getCalculations().dataOfCreation | date:'dd.MM.yyyy'}}</b>
+                        </p>
+                        <p>
+                            <b>Адрес объекта: {{getCalculations().constructionAddress}}</b>
+                        </p>
+                    </div>
+                    <div class="status-field">
+                        <button class="btn" (click)="statusToggle = !statusToggle" [ngClass]="{'btn-status': statusToggle}">
+                            <small *ngIf="!statusToggle">Статус: {{getCalculations().status.statusName}}</small>
+                            <small *ngIf="statusToggle">Закрыть поле</small>
+                        </button>
+                        <div class="status-btns" *ngIf="statusToggle">
+                            <div class="statuses" *ngFor="let status of getStatuses()" style="text-align: center">
+                                <button class="btn" (click)="changeStatus(status); statusToggle = !statusToggle">{{status.statusName}}</button>
+                            </div>
 
-            <table class="calculation__table">
-                <tr class="calculation__table-headers">
-                    <th>Элемент</th>
-                    <th>Материал</th>
-                    <th>Ед.измерения</th>
-                    <th>Количество</th>
-                    <th>Стоимость материалов</th>
-                </tr>
-                <tr class="calculation__data long-line">
-                    <td colspan="4" style="border-right: none">Внешние стены</td>
-                    <td style="border-left: none">285 918</td>
-                </tr>
-                <tr class="calculation__data filling-data">
-                    <td>Парогидроизоляция</td>
-                    <td>Ондутис</td>
-                    <td>м<sup>2</sup></td>
-                    <td>207</td>
-                    <td>6900</td>
-                </tr>
-                <tr class="calculation__data filling-data">
-                    <td>Парогидроизоляция</td>
-                    <td>Ондутис</td>
-                    <td>м<sup>2</sup></td>
-                    <td>207</td>
-                    <td>6900</td>
-                </tr>
-                <tr class="calculation__data filling-data">
-                    <td>Парогидроизоляция</td>
-                    <td>Ондутис</td>
-                    <td>м<sup>2</sup></td>
-                    <td>207</td>
-                    <td>6900</td>
-                </tr>
-                <tr class="calculation__data filling-data">
-                    <td>Парогидроизоляция</td>
-                    <td>Ондутис</td>
-                    <td>м<sup>2</sup></td>
-                    <td>207</td>
-                    <td>6900</td>
-                </tr>
-                <tr class="calculation__data long-line">
-                    <td colspan="4" style="border-right: none">Внутренние стены</td>
-                    <td style="border-left: none">492 921</td>
-                </tr>
-                <tr class="calculation__data filling-data">
-                    <td>Парогидроизоляция</td>
-                    <td>Ондутис</td>
-                    <td>м<sup>2</sup></td>
-                    <td>207</td>
-                    <td>6900</td>
-                </tr>
-                <tr class="calculation__data filling-data">
-                    <td>Парогидроизоляция</td>
-                    <td>Ондутис</td>
-                    <td>м<sup>2</sup></td>
-                    <td>207</td>
-                    <td>6900</td>
-                </tr>
-                <tr class="calculation__data filling-data">
-                    <td>Парогидроизоляция</td>
-                    <td>Ондутис</td>
-                    <td>м<sup>2</sup></td>
-                    <td>207</td>
-                    <td>6900</td>
-                </tr>
-<!--                <tr class="calculation__data" *ngFor="let calc of getResults()">-->
-<!--&lt;!&ndash;                    <td><a class="client__card-link" [routerLink]="['/clientspage', , calc.id]">Расчет №{{calc.numberN}}</a></td>&ndash;&gt;-->
-<!--                    <td>{{calc.created_date | date:'dd.MM.yyyy'}}</td>-->
-<!--                    <td *ngIf="calc.cStatus; else falseStatus">Актуален</td>-->
-<!--                    <ng-template #falseStatus>-->
-<!--                        <td>Не актуален</td>-->
-<!--                    </ng-template>-->
-<!--                    <td>{{calc.addressOC}}</td>-->
-<!--                    <td><button [disabled]="true" class="btn">Копировать</button></td>-->
-<!--                    <td><button [disabled]="true" class="btn danger">Удалить</button></td>-->
-<!--                </tr>-->
-            </table>
+<!--                            <button class="btn" *ngIf="getCalculations().status.statusName == 'Актуален'">Не актуален</button>-->
+<!--                            <button class="btn" *ngIf="getCalculations().status.statusName != 'Актуален'">Актуализировать</button>-->
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="control-btns">
+                    <div class="show-results">
+                        <button class="btn" style="margin-right: 15px" (click)="toggleTables = !toggleTables">
+                            <small *ngIf="toggleTables">Свернуть</small>
+                            <small *ngIf="!toggleTables">Развернуть</small>
+                        </button>
+                        <label class="label-text">результаты расчета каркаса</label>
+                    </div>
+                    <div class="btns-edit-add">
+                        <button class="btn" *ngIf="!getEmptyFlag()" [routerLink]="['/clientspage', clientId, 'construction', 'houseframecalc']" (click)="setEditFlag()">Редактировать</button>
+                        <button class="btn" *ngIf="getEmptyFlag()" [routerLink]="['/clientspage', clientId, 'construction']">Добавить<br>конструктивный элемент</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-field">
+                <div class="tables" *ngIf="toggleTables">
+                    <table class="calculation__table" *ngFor="let table of getResults(); let i = index">
+                        <tr class="calculation__table-headers">
+    <!--                        {{table.frame.floorNumber}}-->
+                            <th colspan="5">Результаты расчета {{i+1}} этажа</th>
+                        </tr>
+
+                        <tr class="calculation__table-headers">
+                            <th>Элемент</th>
+                            <th>Материал</th>
+                            <th>Ед.измерения</th>
+                            <th>Количество</th>
+                            <th>Стоимость материалов</th>
+                        </tr>
+
+                        <tr class="calculation__data long-line">
+                            <td colspan="4" style="border-right: none">Внешние стены</td>
+                            <td style="border-left: none">{{getExternalWallsTotalSum(i) | roundNum}}</td>
+                        </tr>
+                        <tr class="calculation__data filling-data" *ngFor="let extWall of getExternalWalls(i); let j = index">
+                            <td>{{getElementsNames(j)}}</td>
+                            <td>{{extWall.material}}</td>
+                            <td>{{extWall.units}}</td>
+                            <td>{{extWall.amount | roundNum}}</td>
+                            <td>{{extWall.totalCost | roundNum}}</td>
+                        </tr>
+
+                        <tr class="calculation__data long-line">
+                            <td colspan="4" style="border-right: none">Внутренние стены</td>
+                            <td style="border-left: none">{{getInternalWallsTotalSum(i) | number: '1.0-0'}}</td>
+                        </tr>
+                        <tr class="calculation__data filling-data" *ngFor="let extWall of getInternalWalls(i); let j = index">
+                            <td>{{getElementsNames(j)}}</td>
+                            <td>{{extWall.material}}</td>
+                            <td>{{extWall.units}}</td>
+                            <td>{{extWall.amount | roundNum}}</td>
+                            <td>{{extWall.totalCost | roundNum}}</td>
+                        </tr>
+
+                        <tr class="calculation__data long-line">
+                            <td colspan="4" style="border-right: none">Перекрытия</td>
+                            <td style="border-left: none">{{getOverlapsTotalSum(i) | number: '1.0-0'}}</td>
+                        </tr>
+                        <tr class="calculation__data filling-data" *ngFor="let extWall of getOverlaps(i); let j = index">
+                            <td>{{getElementsNames(j)}}</td>
+                            <td>{{extWall.material}}</td>
+                            <td>{{extWall.units}}</td>
+                            <td>{{extWall.amount | roundNum}}</td>
+                            <td>{{extWall.totalCost | roundNum}}</td>
+                        </tr>
+                        <tr class="calculation__data long-line total">
+                            <td colspan="4" style="border-right: none"><b>Итоговая стоимость материалов</b></td>
+                            <td style="border-left: none"><b>{{getTotalFloorSum(i) | number: '1.0-0'}}</b></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="tables" *ngIf="!toggleTables">
+                    <table class="calculation__table" *ngFor="let table of getResults(); let i = index">
+                        <tr class="calculation__table-headers">
+                            <th colspan="5">Результаты расчета {{i+1}} этажа</th>
+                        </tr>
+                        <tr class="calculation__data long-line total">
+                            <td colspan="4" style="border-right: none"><b>Итоговая стоимость материалов</b></td>
+                            <td style="border-left: none"><b>{{getTotalFloorSum(i) | number: '1.0-0'}}</b></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="total-cost-field">
+                    <p><b>ИТОГО стоимость материалов</b></p>
+                    <p><b>{{getAllTotalSum() | roundNum | number: '1.0-0'}}</b></p>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

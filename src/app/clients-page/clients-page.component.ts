@@ -11,6 +11,7 @@ import {CookieService} from "ngx-cookie-service";
 })
 export class ClientsPageComponent implements OnInit {
   newTokens: any
+  role: string = ''
 
   constructor(
       public clientsService: ClientsService,
@@ -21,6 +22,7 @@ export class ClientsPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.role = this.cookieService.get('role')
     this.clientsService.getAllClients().subscribe({
       next: (msg) => {
         console.log(JSON.parse(String(msg.body)))
@@ -28,29 +30,17 @@ export class ClientsPageComponent implements OnInit {
       },
       error: (err) => {
         console.log('error received on clients-page:', err)
-        console.log('TOKEN EXPIRED: ', err)
         if (err.status == 403) {
-          this.authService.refreshToken().subscribe({
-            next: (msg) => {
-              this.newTokens = msg
-              this.authService.setAuthTokens(this.newTokens.access_token, this.newTokens.refresh_token)
-              this.cookieService.set('access_token', this.authService.getAuthTokens().access_token, {expires: 1})
-              this.cookieService.set('refresh_token', this.authService.getAuthTokens().refresh_token, {expires: 1})
-              setTimeout(() => {window.location.reload()}, 300)
-            },
-            error: (err) => {
-              console.log('error: ', err)
-              if (err.status == 403) {
-                alert('Ваша сессия закончилась. Авторизуйтесь заново')
-                this.authService.logout()
-              }
-            },
-            complete: () => {}
-          })
+          this.authService.refreshToken()
         }
       },
       complete: () => this.router.navigate(['/clientspage'])
     })
   }
 
+  // update() {
+  //   setTimeout(() => {
+  //     window.location.reload()
+  //   }, 300)
+  // }
 }

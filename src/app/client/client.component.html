@@ -2,6 +2,7 @@
     <div class="component__container">
         <div class="client__card-header">
             <button class="btn" type="button" routerLink="/clientspage">Назад</button>
+<!--            <button class="btn" type="button" (click)="addNewCalculation()">получить</button>-->
             <div class="client-info" *ngIf="!moreInfoToggle && !editToggle">
                 <p>{{getClient().surname}} {{getClient().name}} {{getClient().patronymic}}</p>
                 <p>{{getTel() | cellphone}}</p>
@@ -106,11 +107,11 @@
                 <div class="address-clearbtn">
                     <div class="address-validation">
                         <div class="address-with-btn">
-                            <input type="text" name="fAddress" class="validation__input-style" placeholder="Адрес объекта строительства" formControlName="address_object_constractions">
-                            <button class="btn" type="submit" (click)="saveCalculation()" [routerLink]="['/clientspage', clientId, 'construction']" [disabled]="formCreateCalculation.invalid">Создать расчет</button>
+                            <input type="text" name="fAddress" class="validation__input-style" placeholder="Адрес объекта строительства" formControlName="constructionAddress">
+                            <button class="btn" type="submit" (click)="addNewCalculation()" [routerLink]="['/clientspage', clientId, 'construction']" [disabled]="formCreateCalculation.invalid">Создать расчет</button>
                         </div>
                         <div
-                                *ngIf="formCreateCalculation.get('address_object_constractions')?.invalid && formCreateCalculation.get('address_object_constractions')?.touched"
+                                *ngIf="formCreateCalculation.get('constructionAddress')?.invalid && formCreateCalculation.get('constructionAddress')?.touched"
                                 class="validation"
                         >
                             <small>Поле не может быть пустым</small>
@@ -127,19 +128,16 @@
                 <th>Дата</th>
                 <th>Статус</th>
                 <th>Адрес</th>
-                <th>Копирование</th>
+                <th>Редактирование</th>
                 <th>Удаление</th>
             </tr>
-            <tr class="calculation__data" *ngFor="let calc of resultsService.results">
-                <td><a class="client__card-link" [routerLink]="['/clientspage', clientId, calc.id]">Расчет №{{calc.numberN}}</a></td>
-                <td>{{calc.created_date | date:'dd.MM.yyyy'}}</td>
-                <td *ngIf="calc.cStatus; else falseStatus">Актуален</td>
-                <ng-template #falseStatus>
-                    <td>Не актуален</td>
-                </ng-template>
-                <td>{{calc.addressOC}}</td>
-                <td><button [disabled]="true" class="btn">Копировать</button></td>
-                <td><button [disabled]="true" class="btn danger">Удалить</button></td>
+            <tr class="calculation__data" *ngFor="let calc of getAllCalculations() let i = index">
+                <td><a class="client__card-link" [routerLink]="['/clientspage', clientId, calc.id, i+1]" (click)="setCalcNumber(calc.number, i+1); setCalculationsCookie(calc)">Расчет №{{i+1}}</a></td>
+                <td>{{calc.dataOfCreation | date:'dd.MM.yyyy'}}</td>
+                <td>{{calc.status.statusName}}</td>
+                <td>{{calc.constructionAddress}}</td>
+                <td><button class="btn" [routerLink]="['/clientspage', clientId, 'construction', 'houseframecalc']" (click)="setCalcNumber(calc.number, i+1); setCalculationsCookie(calc); setEditFlag()">Редактировать</button></td>
+                <td><button class="btn danger" (click)="deleteCalculation(calc.number)">Удалить</button></td>
             </tr>
         </table>
 

@@ -11,6 +11,7 @@ import {ConsctructionNodeComponent} from "./consctruction-node/consctruction-nod
 import {HouseframeCalcComponent} from "./houseframe-calc/houseframe-calc.component";
 import {HousefoundationCalcComponent} from "./housefoundation-calc/housefoundation-calc.component";
 import {ResultsComponent} from "./results/results.component";
+import {UserRegistrationComponent} from "./user-registration/user-registration.component";
 
 const routes: Routes = [
     {path: '', component: MainPageComponent},
@@ -18,10 +19,11 @@ const routes: Routes = [
     {path: 'clientspage/:id', component: ClientComponent, canActivate: [AuthGuard]},
     {path: 'login', component: LoginComponent},
     {path: 'clientregistration', component: ClientRegistrationComponent, canActivate: [AuthGuard]},
+    {path: 'userregistration', component: UserRegistrationComponent, canActivate: [AuthGuard]},
     {path: 'clientspage/:id/construction', component: ConsctructionNodeComponent, canActivate: [AuthGuard]},
     {path: 'clientspage/:id/construction/houseframecalc', component: HouseframeCalcComponent, canActivate: [AuthGuard]},
     {path: 'clientspage/:id/construction/housefoundationcalc', component: HousefoundationCalcComponent, canActivate: [AuthGuard]},
-    {path: 'clientspage/:id/:idRes', component: ResultsComponent, canActivate: [AuthGuard]},
+    {path: 'clientspage/:id/:idRes/:resPNum', component: ResultsComponent, canActivate: [AuthGuard]},
 
     {path: 'error', component: ErrorPageComponent},
 

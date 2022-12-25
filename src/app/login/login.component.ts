@@ -53,8 +53,6 @@ export class LoginComponent implements OnInit {
             JSON.parse(String(msg.body)).user.login,
             role,
         )
-        console.log('access_token: ', this.authService.getAuthTokens().access_token)
-        console.log('refresh_token: ', this.authService.getAuthTokens().refresh_token)
         console.log('CurrentManager: ', this.authService.getCurrentManager())
         this.cookieService.set('name','Calculator');
         this.cookieService.set('access_token', this.authService.getAuthTokens().access_token, {expires: 1})

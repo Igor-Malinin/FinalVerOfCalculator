@@ -19,6 +19,8 @@ import { ConsctructionNodeComponent } from './consctruction-node/consctruction-n
 import { HouseframeCalcComponent } from './houseframe-calc/houseframe-calc.component';
 import { HousefoundationCalcComponent } from './housefoundation-calc/housefoundation-calc.component';
 import { ResultsComponent } from './results/results.component';
+import {RoundNumPipe} from "./pipes/roundNum.pipe";
+import { UserRegistrationComponent } from './user-registration/user-registration.component';
 
 @NgModule({
     declarations: [
@@ -29,11 +31,13 @@ import { ResultsComponent } from './results/results.component';
         ClientsPageComponent,
         ClientComponent,
         CellphonePipe,
+        RoundNumPipe,
         ClientRegistrationComponent,
         ConsctructionNodeComponent,
         HouseframeCalcComponent,
         HousefoundationCalcComponent,
-        ResultsComponent
+        ResultsComponent,
+        UserRegistrationComponent
     ],
     imports: [
         BrowserModule,

@@ -70,6 +70,7 @@ export class ClientsService {
   setClient(client: Client) {
     this.client = client
   }
+
   getClient() {
     return this.client
   }
