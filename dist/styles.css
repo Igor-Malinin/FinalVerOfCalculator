@@ -450,7 +450,7 @@ select::-ms-expand {
   display: none;
 }
 .wrapper {
-  max-width: 1060px;
+  max-width: 1160px;
   margin: 0 auto;
 }
 .component__container {
