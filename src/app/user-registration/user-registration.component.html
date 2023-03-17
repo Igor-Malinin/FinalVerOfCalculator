@@ -6,12 +6,28 @@
             <h1 class="reg__title">Регистрация нового сотрудника</h1>
 
             <div class="reg__form-control">
-                <select class="select-options" formControlName="groupOfUsers">
-                    <option class="option" value=""> Роль </option>
-                    <option class="option" [value]="role.groupName" *ngFor="let role of getRoles()"> {{role.groupName}} </option>
-                </select>
+                <div class="title-group-flex">
+                    <h1 class="role-title">Выберите роль</h1>
+                    <div class="group-of-users" [ngClass]="{
+                    invalidBorder: formUserReg.controls['groupOfUsers'].errors?.['required'] && formUserReg.touched,
+                    validBorder: !formUserReg.controls['groupOfUsers'].errors?.['required'] && formUserReg.touched
+                    }">
+                        <label class="label-f-c" *ngFor="let group of getRoles(); let i = index">
+                            <input type="checkbox" [value]="group.groupName" (change)="onCheckboxChange($event)" style="margin-right: 10px">
+                            <small *ngIf="group.groupName == 'ROLE_USER'">Клиент</small>
+                            <small *ngIf="group.groupName == 'ROLE_MANAGER'">Менеджер</small>
+                            <small *ngIf="group.groupName == 'ROLE_ADMIN'">Администратор</small>
+                        </label>
+                    </div>
+                </div>
+
+<!--                <select class="select-options" formControlName="groupOfUsers">-->
+<!--                    <option class="option" value=""> Роль </option>-->
+<!--                    <option class="option" [value]="role.groupName" *ngFor="let role of getRoles()"> {{role.groupName}} </option>-->
+<!--                </select>-->
+
                 <div
-                        *ngIf="formUserReg.get('groupOfUsers')?.invalid && formUserReg.get('groupOfUsers')?.touched"
+                        *ngIf="formUserReg.controls['groupOfUsers']?.errors?.['required'] && formUserReg?.touched"
                         class="validation"
                 >
                     <small>Выберите роль</small>
@@ -26,7 +42,7 @@
                         *ngIf="formUserReg.get('status')?.invalid && formUserReg.get('status')?.touched"
                         class="validation"
                 >
-                    <small>Выберите роль</small>
+                    <small>Выберите статус</small>
                 </div>
             </div>
             <div class="reg__form-control">
@@ -57,7 +73,7 @@
                 </div>
             </div>
             <div class="reg__form-control">
-                <input type="text" name="telephoneNumber" class="reg__input" placeholder="Телефон" formControlName="telephoneNumber">
+                <input type="number" name="telephoneNumber" class="reg__input" placeholder="Телефон" formControlName="telephoneNumber">
                 <div
                         *ngIf="formUserReg.get('telephoneNumber')?.invalid && formUserReg.get('telephoneNumber')?.touched"
                         class="validation"

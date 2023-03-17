@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {ClientsService} from "../services/clients.service";
 import {AuthService} from "../services/auth.service";
@@ -20,6 +20,7 @@ export class UserRegistrationComponent implements OnInit {
   newTokens: any
   roles: any = ''
   statuses: any = ''
+  flags = [false, false, false]
 
   constructor(
       private http: HttpClient,
@@ -33,7 +34,7 @@ export class UserRegistrationComponent implements OnInit {
     this.formUserReg = new FormGroup({
       // id: new FormControl(null),
       status: new FormControl('', Validators.required),
-      groupOfUsers: new FormControl('', Validators.required),
+      groupOfUsers: new FormArray([], Validators.required),
       surname: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
       patronymic: new FormControl('', Validators.required),
@@ -78,21 +79,48 @@ export class UserRegistrationComponent implements OnInit {
     })
   }
 
+  // get groupOfUsers() {
+  //   return this.formUserReg.controls["groupOfUsers"] as FormArray
+  // }
+
   getRoles() {
     return this.roles
+  }
+
+  onCheckboxChange(e: any) {
+    const checkArray: FormArray = this.formUserReg.get('groupOfUsers') as FormArray;
+    if (e.target.checked) {
+      checkArray.push(new FormControl(e.target.value));
+    } else {
+      let i: number = 0;
+      checkArray.controls.forEach((item: any) => {
+        if (item.value == e.target.value) {
+          checkArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
   }
 
   getStatuses() {
     return this.statuses
   }
 
+  groupFlags(group: any, index: number) {
+    this.flags[index] = true
+  }
+
   submit() {
     if(this.formUserReg.valid) {
       const newUserData = {...this.formUserReg.value}
       let roleId = 0
+      let group: any[] = []
       this.roles.filter((role: any) => {
-        if (role.groupName == newUserData.groupOfUsers)
-          roleId = role.id
+        for (let i = 0; i < newUserData.groupOfUsers.length; i++) {
+          if (role.groupName == newUserData.groupOfUsers[i])
+            group.push(role)
+        }
       })
       let statusId = 0
       this.statuses.filter((status: any) => {
@@ -100,17 +128,12 @@ export class UserRegistrationComponent implements OnInit {
           statusId = status.id
       })
       newUserData.telephoneNumber = Number(newUserData.telephoneNumber)
-      newUserData.groupOfUsers = [
-          {
-        id: roleId,
-        groupName: newUserData.groupOfUsers
-      }
-      ]
+      newUserData.groupOfUsers = group
       newUserData.status = {
         id: statusId,
         statusName: newUserData.status
       }
-      console.log(JSON.stringify(newUserData))
+      console.log(newUserData)
       this.managerService.addUser(newUserData).subscribe({
         next: (msg) => {
           console.log(msg)
@@ -125,12 +148,12 @@ export class UserRegistrationComponent implements OnInit {
         },
         complete: () => console.log('complete')
       })
-      // this.formUserReg.reset()
+      this.formUserReg.reset()
     }
 
   }
 
   showInfo() {
-
+    this.getRoles()
   }
 }

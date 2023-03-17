@@ -42,3 +42,36 @@
 .reg__btn {
   margin-bottom: 20px;
 }
+
+.title-group-flex {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.role-title {
+  width: 200px;
+}
+
+.group-of-users {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  color: styles.$text-color-light;
+  background-color: styles.$back-color-dark;
+  border: 2px solid styles.$border-color-lightgrey;
+  border-radius: 10px;
+  gap: 10px;
+
+}
+
+.invalidBorder {
+  border: 2px solid styles.$danger-color;
+}
+.validBorder {
+  border: 2px solid styles.$valid-color;
+}

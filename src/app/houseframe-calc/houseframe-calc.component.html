@@ -76,7 +76,7 @@
                                 <div class="main-items">
                                     <div class="label-item__flex">
                                         <label for="ffloor_height" class="form__label">Высота этажа</label>
-                                        <input type="text" id="ffloor_height" class="frame__input" formControlName="floorHeight">
+                                        <input type="number" id="ffloor_height" class="frame__input" min="1" formControlName="floorHeight">
 
                                     </div>
                                     <div
@@ -91,7 +91,7 @@
                                     </div>
                                     <div class="label-item__flex">
                                         <label for="fperimeter_of_external_walls" class="form__label">Периметр внешних стен</label>
-                                        <input type="text" id="fperimeter_of_external_walls" class="frame__input" formControlName="outerWallPerimeter">
+                                        <input type="number" id="fperimeter_of_external_walls" class="frame__input" min="0" formControlName="outerWallPerimeter">
                                     </div>
                                     <div
                                             *ngIf="formFrame.controls['floorNumber'].controls[i].controls['outerWallPerimeter']?.invalid
@@ -102,7 +102,7 @@
                                     </div>
                                     <div class="label-item__flex">
                                         <label for="fbaseArea" class="form__label">Площадь основания</label>
-                                        <input type="text" id="fbaseArea" class="frame__input" formControlName="baseArea">
+                                        <input type="number" id="fbaseArea" class="frame__input" min="0" formControlName="baseArea">
                                     </div>
                                     <div
                                             *ngIf="formFrame.controls['floorNumber'].controls[i].controls['baseArea']?.invalid
@@ -135,7 +135,7 @@
                                     </div>
                                     <div class="label-item__flex">
                                         <label for="finternalWallLength" class="form__label">Длина внутренних стен</label>
-                                        <input type="text" id="finternalWallLength" class="frame__input" formControlName="internalWallLength">
+                                        <input type="number" id="finternalWallLength" min="0" class="frame__input" formControlName="internalWallLength">
                                     </div>
                                     <div
                                             *ngIf="formFrame.controls['floorNumber'].controls[i].controls['internalWallLength']?.invalid
@@ -148,13 +148,12 @@
                                     <div class="label-item__flex">
                                         <label class="form__label">Толщина внутренних стен</label>
                                         <div class="label-with-btn">
-                                            <select class="select-options" formControlName="internalWallThickness" *ngIf="formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.valid
-                                            && formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.touched">
-                                                <option class="option" value=""> Выбрать </option>
-                                                <option class="option" [value]="thickVal" *ngFor="let thickVal of getThicknessArray(formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall'].value)">{{thickVal}}</option>
-                                            </select>
-                                            <select class="select-options" formControlName="internalWallThickness" *ngIf="!formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.valid
-                                            || !formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.touched">
+<!--                                            <select class="select-options" formControlName="internalWallThickness" *ngIf="formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.valid-->
+<!--                                            && formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall']?.touched">-->
+<!--                                                <option class="option" value=""> Выбрать </option>-->
+<!--                                                <option class="option" [value]="thickVal" *ngFor="let thickVal of getThicknessArray(formFrame.controls['floorNumber'].controls[i].controls['insulationExternalWall'].value)">{{thickVal}}</option>-->
+<!--                                            </select>-->
+                                            <select class="select-options" formControlName="internalWallThickness">
                                                 <option class="option" value=""> Выбрать </option>
                                                 <option class="option" [value]="thickVal" *ngFor="let thickVal of getThicknessArray('all')">{{thickVal}}</option>
                                             </select>
@@ -294,11 +293,11 @@
                                                         <small>Выберите тип проемов</small>
                                                     </div>
                                                     <div class="openings-inputs-flex">
-                                                        <input type="text" class="frame__input" placeholder="Высота" formControlName="height">
-                                                        <input type="text" class="frame__input" placeholder="Ширина" formControlName="weight">
+                                                        <input type="number" class="frame__input" min="0" placeholder="Высота" formControlName="height">
+                                                        <input type="number" class="frame__input" min="0" placeholder="Ширина" formControlName="weight">
                                                     </div>
                                                 </div>
-                                                <input type="text" class="frame__input" placeholder="Количество" formControlName="amount" >
+                                                <input type="number" class="frame__input" min="0" placeholder="Количество" formControlName="amount" >
                                             </div>
                                             <div
                                                     *ngIf="formFrame.controls['floorNumber'].controls[i].controls['apertures'].controls[j]?.invalid

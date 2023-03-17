@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (this.cookieService.check('isAuthenticated')) {
       this.isAuthenticated = (this.cookieService.get('isAuthenticated') == 'OK')
-      this.cookieService.set('editFlag', JSON.stringify(false))
+      // this.cookieService.set('editFlag', JSON.stringify(false))
       this.authService.setAuth(this.isAuthenticated)
       this.authService.setAuthTokens(this.cookieService.get('access_token'), this.cookieService.get('refresh_token'))
       this.authService.setCurrentManager(

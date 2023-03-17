@@ -69,7 +69,8 @@ export class HouseframeCalcComponent implements OnInit, AfterContentInit {
         })
 
         if (JSON.parse(this.cookieService.get('editFlag'))) {
-            // console.log(this.cookieService.get('calcNumber'))
+            console.log(this.cookieService.get('calcNumber'))
+            console.log(JSON.parse(this.cookieService.get('editFlag')))
             this.resultsService.clearResults()
             this.resultsService.getResults(this.cookieService.get('calcNumber')).subscribe({
                 next: (msg) => {
@@ -141,9 +142,9 @@ export class HouseframeCalcComponent implements OnInit, AfterContentInit {
                         internalWallLength: ['', Validators.required],
                         internalWallThickness: ['', Validators.required],
 
-                        osbexternalWall: ['', Validators.required],
-                        steamWaterproofingExternalWall: ['', Validators.required],
-                        windscreenExternalWall: ['', Validators.required],
+                        osbexternalWall: [''],
+                        steamWaterproofingExternalWall: [''],
+                        windscreenExternalWall: [''],
                         insulationExternalWall: [''],
 
                         osbinternalWall: [''],
@@ -189,7 +190,8 @@ export class HouseframeCalcComponent implements OnInit, AfterContentInit {
 
         this.materials.getMaterials().subscribe({
             next: (msg) => {
-                // console.log(JSON.parse(String(msg.body)))
+                console.log(msg.body)
+                this.material = JSON.parse(String(msg.body))
                 this.materials.setMaterialArray(JSON.parse(String(msg.body)))
             },
             error: (err) => {
@@ -204,10 +206,24 @@ export class HouseframeCalcComponent implements OnInit, AfterContentInit {
     }
 
     ngAfterContentInit() {
-        if (browserRefresh)
-            this.router.navigate(['/clientspage', this.clientId])
+        this.materials.getMaterials().subscribe({
+            next: (msg) => {
+                this.materials.setMaterialArray(JSON.parse(String(msg.body)))
+            },
+            error: (err) => {
+                console.log('ERROR', err)
+                if (err.status == 403) {
+                    this.authService.refreshToken()
+                }
+            },
+            complete: () => {
+            }
+        })
+        // if (browserRefresh)
+        //     this.router.navigate(['/clientspage', this.clientId])
         if (JSON.parse(this.cookieService.get('editFlag'))) {
             console.log('getFromRes', this.resultsService.getEditForm().floorNumber[0].osbexternalWall)
+            console.log('getFromRes', this.resultsService.getEditForm().floorNumber[0].steamWaterproofingExternalWall)
             this.formFrame = this.fb.group({
                 id: [this.resultsService.getEditForm().id[0]],
                 numberOfFloors: [this.editForm[0][0].frame.numberOfFloors, [Validators.required, Validators.min(1), Validators.max(20)]],
@@ -219,14 +235,11 @@ export class HouseframeCalcComponent implements OnInit, AfterContentInit {
                         externalWallThickness: [this.resultsService.getEditForm().floorNumber[0].externalWallThickness, Validators.required],
                         internalWallLength: [this.resultsService.getEditForm().floorNumber[0].internalWallLength, Validators.required],
                         internalWallThickness: [this.resultsService.getEditForm().floorNumber[0].internalWallThickness, Validators.required],
-
-                        osbexternalWall: [this.resultsService.getEditForm().floorNumber[0].osbexternalWall, Validators.required],
-                        steamWaterproofingExternalWall: [this.resultsService.getEditForm().floorNumber[0].steamWaterproofingExternalWall, Validators.required],
-                        windscreenExternalWall: [this.resultsService.getEditForm().floorNumber[0].windscreenExternalWall, Validators.required],
+                        osbexternalWall: [this.resultsService.getEditForm().floorNumber[0].osbexternalWall],
+                        steamWaterproofingExternalWall: [this.resultsService.getEditForm().floorNumber[0].steamWaterproofingExternalWall],
+                        windscreenExternalWall: [this.resultsService.getEditForm().floorNumber[0].windscreenExternalWall],
                         insulationExternalWall: [this.resultsService.getEditForm().floorNumber[0].insulationExternalWall],
-
                         osbinternalWall: [this.resultsService.getEditForm().floorNumber[0].osbinternalWall],
-
                         apertures: this.fb.array([
                             this.fb.group({
                                 id: this.fb.group({
@@ -271,7 +284,6 @@ export class HouseframeCalcComponent implements OnInit, AfterContentInit {
         }
     }
 
-
     heightWeight(heightV: string, weightV: string) {
         return (group: FormGroup) => {
             this.heightV = group.controls[heightV]
@@ -287,6 +299,10 @@ export class HouseframeCalcComponent implements OnInit, AfterContentInit {
 
     setEditForm(results: any) {
         this.editForm = results
+    }
+
+    getMaterialArr() {
+        return this.material
     }
 
     getEditForm() {
@@ -388,9 +404,9 @@ export class HouseframeCalcComponent implements OnInit, AfterContentInit {
                 internalWallLength: ['', Validators.required],
                 internalWallThickness: ['', Validators.required],
 
-                osbexternalWall: ['', Validators.required],
-                steamWaterproofingExternalWall: ['', Validators.required],
-                windscreenExternalWall: ['', Validators.required],
+                osbexternalWall: [''],
+                steamWaterproofingExternalWall: [''],
+                windscreenExternalWall: [''],
                 insulationExternalWall: [''],
 
                 osbinternalWall: [''],
@@ -458,9 +474,9 @@ export class HouseframeCalcComponent implements OnInit, AfterContentInit {
                     internalWallLength: [floorInfo[i].internalWallLength, Validators.required],
                     internalWallThickness: [floorInfo[i].internalWallThickness, Validators.required],
 
-                    osbexternalWall: [floorInfo[i].osbexternalWall, Validators.required],
-                    steamWaterproofingExternalWall: [floorInfo[i].steamWaterproofingExternalWall, Validators.required],
-                    windscreenExternalWall: [floorInfo[i].windscreenExternalWall, Validators.required],
+                    osbexternalWall: [floorInfo[i].osbexternalWall],
+                    steamWaterproofingExternalWall: [floorInfo[i].steamWaterproofingExternalWall],
+                    windscreenExternalWall: [floorInfo[i].windscreenExternalWall],
                     insulationExternalWall: [floorInfo[i].insulationExternalWall],
 
                     osbinternalWall: [floorInfo[i].osbinternalWall],
@@ -623,9 +639,9 @@ export class HouseframeCalcComponent implements OnInit, AfterContentInit {
             internalWallLength: ['', Validators.required],
             internalWallThickness: ['', Validators.required],
 
-            osbexternalWall: ['', Validators.required],
-            steamWaterproofingExternalWall: ['', Validators.required],
-            windscreenExternalWall: ['', Validators.required],
+            osbexternalWall: [''],
+            steamWaterproofingExternalWall: [''],
+            windscreenExternalWall: [''],
             insulationExternalWall: [''],
 
             osbinternalWall: [''],
